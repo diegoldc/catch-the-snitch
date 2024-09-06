@@ -1,0 +1,62 @@
+body {
+  margin: 0;
+  background-color: lightgray;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 50px;
+}
+
+#instructions {
+  text-align: center;
+}
+
+#instructions ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+#instructions ul li {
+  margin: 5px 0;
+}
+
+#start-btn {
+  background-color: rgb(214, 36, 4);
+  color: white;
+  padding: 25px;
+  font-size: 20px;
+  margin-top: 30px;
+  border-radius: 10px; 
+}
+
+#game-box {
+  background-color: darkgray;
+  width:600px;
+  height:400px;
+
+  position: relative; /* permite posicionar los elementos de forma absoluta dentro del game-box */
+  overflow: hidden; /* previene que los elementos salgan visualmente del game-box */
+  user-select: none; /* previene que los elementos del game-box sean resaltados al hacer click */
+
+  background-image: url("../images/bg.png");
+  background-position: center;
+  background-size: cover;
+
+}
+
+/* #game-screen  {
+  display: flex;
+}
+
+#game-over-screen {
+  display: none;
+}
+
+#start-screen {
+  display: none;
+} */

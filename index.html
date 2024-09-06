@@ -1,11 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Catch the snitch!</title>
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+
+  <body>
+    <!-- PANTALLA DE INICIO -->
+    <div id="start-screen" class="container">
+      <img src="./images/magic-button-green.png" width="200" alt="logo" />
+      <div id="instructions">
+        <h3>Instructions</h3>
+        <ul>
+          <li>Press Arrow Left , Right, Down and Up</li>
+          <li>Catch max snitchs</li>
+          <li>Avoid enemies</li>
+        </ul>
+      </div>
+      <button id="start-btn">Press to play!</button>
+    </div>
+
+    <!-- PANTALLA DE JUEGO -->
+    <div id="game-screen" class="container">
+      <!-- Elementos del juego como puntuación, vidas, etc deberia ir aqui (dentro del game-screen pero fuera del game-box) -->
+      <div id="game-box">
+        <!-- Los elementos del juego serán añadidos desde JS con manipulación de DOM -->
+      </div>
+    </div>
+
+    <!-- PANTALLA FINAL -->
+    <div id="game-over-screen" class="container">
+      <img src="" width="500" alt="logo" />
+    </div>
+
+    <script src="./js/Mago.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/Snitch.js"></script>
+    <script src="./js/Enemigo.js"></script>
+  </body>
 </html>
+
+<!-- imagenes en png y siempre recortadas al borde -->
