@@ -3,11 +3,11 @@ class Mago {
   constructor () {
     this.x = 70;
     this.y = 60;
-    this.h = 70;
-    this.w = 75;
+    this.h = 50;
+    this.w = 55;
 
     this.node = document.createElement("img")
-    this.node.src = "./images/harry.png"
+    this.node.src = "./images/mago.png"
     gameBoxNode.append(this.node)
 
     this.node.style.width = `${this.w}px`

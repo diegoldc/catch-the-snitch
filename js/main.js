@@ -4,7 +4,7 @@
 const gameBoxNode = document.querySelector("#game-box")
 
 //boton
-const startBtnNode = document.querySelector("#start-btn")
+const startBtnNode = document.querySelector(".myButton")
 
 //* VARIABLES GLOBALES
 let magoObj = null

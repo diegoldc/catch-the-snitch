@@ -1,8 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Tint&display=swap');
+
+
 body {
   margin: 0;
   background-color: lightgray;
 }
 
+.title {
+  font-family: "Bungee Tint", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
 .container {
   display: flex;
   flex-direction: column;
@@ -12,8 +20,18 @@ body {
 }
 
 #instructions {
+  box-sizing: border-box;
   text-align: center;
+  border: 11px dashed rgb(0, 0, 0);
+  padding: 20px;
+  background-image: linear-gradient(to right, rgb(241, 93, 35) 0%, rgb(233, 78, 31) 50%, rgb(226, 21, 6) 100%)
+  
 }
+
+#instructions:hover {
+  background: #ee3f14; }
+  #instructions:active {
+  background: #350701; }
 
 #instructions ul {
   list-style: none;
@@ -25,14 +43,22 @@ body {
   margin: 5px 0;
 }
 
-#start-btn {
-  background-color: rgb(214, 36, 4);
+/* #start-btn {
+  background-color: rgb(226, 182, 174);
   color: white;
   padding: 25px;
   font-size: 20px;
   margin-top: 30px;
   border-radius: 10px; 
-}
+  border: 11px inset rgba(219,12,37,0.81);
+} */
+
+.myButton {
+  color: rgb(255, 255, 255); font-size: 16px; line-height: 16px; padding: 25px; margin-top: 30px; border-radius: 10px; font-family: Georgia, serif; font-weight: normal; text-decoration: none; font-style: normal; font-variant: normal; text-transform: none; background-image: linear-gradient(to right, rgb(241, 93, 35) 0%, rgb(233, 78, 31) 50%, rgb(226, 21, 6) 100%); box-shadow: rgb(0, 0, 0) 5px 5px 15px 5px; border: 11px inset rgba(219,12,37,0.81); display: inline-block;}
+  .myButton:hover {
+  background: #ee3f14; }
+  .myButton:active {
+  background: #350701; }
 
 #game-box {
   background-color: darkgray;
@@ -43,9 +69,11 @@ body {
   overflow: hidden; /* previene que los elementos salgan visualmente del game-box */
   user-select: none; /* previene que los elementos del game-box sean resaltados al hacer click */
 
-  background-image: url("../images/bg.png");
+  background-image: url("../images/fondo.jpg");
   background-position: center;
   background-size: cover;
+
+  border: 3px solid rgb(0, 0, 0);
 
 }
 
