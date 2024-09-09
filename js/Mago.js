@@ -1,6 +1,6 @@
 class Mago {
 
-  constructor () {
+  constructor() {
     this.x = 70;
     this.y = 60;
     this.h = 50;
@@ -20,17 +20,29 @@ class Mago {
 
   playerMovement(direction) {
     if (direction === "right") {
-      this.x += this.speed
-      this.node.style.left = `${this.x}px`
+      if (this.x + this.w + this.speed <= 700) {
+        this.x += this.speed
+        this.node.style.left = `${this.x}px`
+      }
+
     } else if (direction === "left") {
-      this.x -= this.speed
-      this.node.style.left = `${this.x}px`
+      if (this.x - this.speed >= 0) {
+        this.x -= this.speed
+        this.node.style.left = `${this.x}px`
+      }
+
     } else if (direction === "down") {
-      this.y += this.speed
-      this.node.style.top = `${this.y}px`
+      if (this.y + this.h + this.speed <= 450) {
+        this.y += this.speed
+        this.node.style.top = `${this.y}px`
+      }
+
     } else if (direction === "up") {
-      this.y -= this.speed
-      this.node.style.top = `${this.y}px`
+      if (this.y - this.speed >= 0) {
+        this.y -= this.speed
+        this.node.style.top = `${this.y}px`
+      }
+
     }
   }
 }

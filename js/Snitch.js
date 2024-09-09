@@ -1,7 +1,7 @@
 class Snitch {
   constructor(positionX) {
     this.x = positionX;
-    this.y = 0;
+    this.y = gameBoxNode.offsetHeight;
     this.w = 50;
     this.h = 40;
     this.speed = 2
@@ -18,7 +18,7 @@ class Snitch {
   }
 
   automaticMove() {
-    this.y += this.speed
+    this.y -= this.speed
     this.node.style.top = `${this.y}px`;
   }
 }

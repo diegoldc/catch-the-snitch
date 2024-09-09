@@ -62,8 +62,8 @@ body {
 
 #game-box {
   background-color: darkgray;
-  width:600px;
-  height:400px;
+  width:700px;
+  height:450px;
 
   position: relative; /* permite posicionar los elementos de forma absoluta dentro del game-box */
   overflow: hidden; /* previene que los elementos salgan visualmente del game-box */
