@@ -21,7 +21,8 @@ let gameIntervalId = null
 
 // let enemigoObj = null
 let enemigoArray = []
-let enemigoIntervalId = null
+let enemigoVoldemortIntervalId = null
+let enemigoDracoIntervalId = null
 
 //* FUNCIONES
 
@@ -45,8 +46,12 @@ function startGame() {
     addSnitch()
   }, 1500)
 
-  enemigoIntervalId = setInterval(() => { // intervalo para añadir enemigo
-    addEnemigo()
+  enemigoVoldemortIntervalId = setInterval(() => { // intervalo para añadir enemigo
+    addEnemigoVoldemort()
+  }, 2300)
+
+  enemigoDracoIntervalId = setInterval(() => { // intervalo para añadir enemigo
+    addEnemigoDraco()
   }, 1500)
 
 }
@@ -62,6 +67,7 @@ function gameLoop() {
 
   detectarSiSnitchSalio()
   detectarSiEnemigoSalio()
+  detectarColisionMagoEnemigo()
 }
 
 function addSnitch() {
@@ -87,11 +93,19 @@ function detectarColisionMagoSnitch () {
 
 }
 
-function addEnemigo () {
+function addEnemigoVoldemort () {
   let randomPositionX = Math.floor(Math.random() * 700) // añadir enemigo en posicion aleatoria eje x
 
-  let newEnemigo = new Enemigo(randomPositionX)
-  enemigoArray.push(newEnemigo)
+  let newVoldemort = new Enemigo(randomPositionX, "voldemort")
+  enemigoArray.push(newVoldemort)
+
+}
+
+function addEnemigoDraco () {
+  let randomPositionX = Math.floor(Math.random() * 700) // añadir enemigo en posicion aleatoria eje x
+
+  let newDraco = new Enemigo(randomPositionX, "draco")
+  enemigoArray.push(newDraco)
 }
 
 function detectarSiEnemigoSalio() {
@@ -104,11 +118,29 @@ function detectarSiEnemigoSalio() {
 
 function detectarColisionMagoEnemigo () {
 
+    enemigoArray.forEach((eachEnemigo) => {
+
+
+      if(
+        // magoObj.x < eachEnemigo.x + eachEnemigo.w && 
+        // magoObj.x + magoObj.w > eachEnemigo.w &&
+        // magoObj.y < eachEnemigo.y + eachEnemigo.h &&
+        // magoObj.y + magoObj.h > eachEnemigo.y
+        (magoObj.y + magoObj.h) >= eachEnemigo.y &&
+        (magoObj.x + magoObj.w) >= eachEnemigo.x &&
+        magoObj.x <= (eachEnemigo.x + eachEnemigo.w) &&
+        magoObj.y <= (eachEnemigo.y + eachEnemigo.h) 
+      ) {
+        gameOver()
+      }
+    })
 }
 
 function gameOver () {
   clearInterval(gameIntervalId)
   clearInterval(snitchIntervalId)
+  clearInterval(enemigoDracoIntervalId)
+  clearInterval(enemigoVoldemortIntervalId)
 
   gameScreenNode.style.display = "none"
   gameOverScreenNode.style.display = "flex"
