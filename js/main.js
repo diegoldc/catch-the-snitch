@@ -13,6 +13,7 @@ const startBtnNode = document.querySelector(".myButton")
 
 // score
 const scoreNode = document.querySelector("#score")
+const healthNode = document.querySelector("#health")
 
 //* VARIABLES GLOBALES
 let magoObj = null
@@ -28,6 +29,7 @@ let enemigoSnapeIntervalId = null
 let enemigoDracoIntervalId = null
 
 let score = 0
+let health = 3
 
 //* FUNCIONES
 
@@ -88,37 +90,52 @@ function addSnitch() {
 function detectarSiSnitchSalio() {
 
   if ((snicthArray[0].y + snicthArray[0].h) <= 0) { // eliminar si llegan al 0px de height
-    
+
     snicthArray[0].node.remove()// Sacar del DOM
     snicthArray.shift() // Sacarlo de JS
 
   }
 }
 
-function detectarColisionMagoSnitch () {
+function detectarColisionMagoSnitch() {
 
   snicthArray.forEach((eachSnitch, index) => {
 
 
-    if(
+    if (
       // medidas para indicar que esta dentro de las medidas de cada enemigo
       (magoObj.y + magoObj.h) >= eachSnitch.y &&
       (magoObj.x + magoObj.w) >= eachSnitch.x &&
       magoObj.x <= (eachSnitch.x + eachSnitch.w) &&
-      magoObj.y <= (eachSnitch.y + eachSnitch.h) 
+      magoObj.y <= (eachSnitch.y + eachSnitch.h)
     ) {
 
       score++ // aumentamos score en 1
-      scoreNode.innerText = score
+      scoreNode.innerText = `Score: ${score}`
+
+      // alerta cuando atrapes la snitch
+      let alertSnitch = document.createElement('p')
+      alertSnitch.innerText = "Ole!"
+
+      // posicionar la alerta
+      // alertSnitch.style.position etc.
+
+      gameBoxNode.append(alertSnitch) // lo añadimos al nodo gamebox
+
+      // desaparece la alerta en 1 segundo
+      setTimeout(() => {
+        alertSnitch.remove()
+      }, 1000)
+
 
       eachSnitch.node.remove()
-      
+
       snicthArray.splice(index, 1) // eliminar solo la snicth que contacte del array
     }
   })
 }
 
-function addEnemigoSnape () {
+function addEnemigoSnape() {
   let randomPositionX = Math.floor(Math.random() * 700) // añadir enemigo en posicion aleatoria eje x
 
   let newSnape = new Enemigo(randomPositionX, "snape")
@@ -126,7 +143,7 @@ function addEnemigoSnape () {
 
 }
 
-function addEnemigoDraco () {
+function addEnemigoDraco() {
   let randomPositionX = Math.floor(Math.random() * 700) // añadir enemigo en posicion aleatoria eje x
 
   let newDraco = new Enemigo(randomPositionX, "draco")
@@ -136,30 +153,67 @@ function addEnemigoDraco () {
 function detectarSiEnemigoSalio() {
   if ((enemigoArray[0].y + enemigoArray[0].h) > 450) { // eliminar si se pasa de 450px height
     enemigoArray[0].node.remove()
-    enemigoArray.shift() 
+    enemigoArray.shift()
 
   }
 }
 
-function detectarColisionMagoEnemigo () {
+function detectarColisionMagoEnemigo() {
 
-    enemigoArray.forEach((eachEnemigo) => {
+  enemigoArray.forEach((eachEnemigo) => {
 
+    if(eachEnemigo.detectado){ // cuando haya un primer contacto detectado lo pasamos a true, para que no cuente de más por posibles contactos al iterar el foreach
+      return
+    }
 
-      if(
-        // medidas para indicar que esta dentro de las medidas de cada enemigo
-        (magoObj.y + magoObj.h) >= eachEnemigo.y &&
-        (magoObj.x + magoObj.w) >= eachEnemigo.x &&
-        magoObj.x <= (eachEnemigo.x + eachEnemigo.w) &&
-        magoObj.y <= (eachEnemigo.y + eachEnemigo.h) 
-      ) {
+    if (
+      // medidas para indicar que esta dentro de las medidas de cada enemigo
+      (magoObj.y + magoObj.h) >= eachEnemigo.y &&
+      (magoObj.x + magoObj.w) >= eachEnemigo.x &&
+      magoObj.x <= (eachEnemigo.x + eachEnemigo.w) &&
+      magoObj.y <= (eachEnemigo.y + eachEnemigo.h)
+    ) {
+      eachEnemigo.detectado = true
+
+      if (eachEnemigo.type === "voldemort") {
         gameOver()
+        
+      } else { 
+        
+        // si choca con snape o draco restamos una vida, luego comprobamos si health = 0 -> gameOver
+        health--
+        healthNode.innerText = `Health: ${health}`
 
+        if (health <= 0) {
+          gameOver()
+        }
+
+        // alerta cuando atrapes la snitch
+        let alertEnemigo = document.createElement('p')
+        alertEnemigo.innerText = "Pillado!"
+
+        // posicionar la alerta
+        // alertSnitch.style.position etc.
+
+        gameBoxNode.append(alertEnemigo) // lo añadimos al nodo gamebox
+
+        // desaparece la alerta en 1 segundo
+        setTimeout(() => {
+          alertEnemigo.remove()
+        }, 1000)
+
+
+        eachEnemigo.node.remove()
+
+        enemigoArray.splice(index, 1) // eliminar solo la snicth que contacte del array
+        
+        
       }
+    }
     })
 }
 
-function gameOver () {
+function gameOver() {
   clearInterval(gameIntervalId)
   clearInterval(snitchIntervalId)
   clearInterval(enemigoDracoIntervalId)

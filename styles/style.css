@@ -71,7 +71,8 @@ body {
   
 }
 
-#score, #timer {
+#score, #timer, #health {
+  
   padding: 10px;
   background-color: #995c54;
   border: 4px solid #350701;

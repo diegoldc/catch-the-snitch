@@ -5,6 +5,7 @@ class Enemigo {
     this.w = 50;
     this.h = 50;
     this.speed = 2
+    this.detectado = false // variable para poder manejarlos individualmente
 
     this.node = document.createElement("img")
     // this.node.src = "./images/voldemort.png"
