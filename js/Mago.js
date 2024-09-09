@@ -5,6 +5,7 @@ class Mago {
     this.y = 60;
     this.h = 50;
     this.w = 55;
+    this.speed = 25;
 
     this.node = document.createElement("img")
     this.node.src = "./images/mago.png"
@@ -15,5 +16,21 @@ class Mago {
     this.node.style.position = "absolute" // nos permite ajuste el top y el left y posicionarlo en relación a la caja de juego.
     this.node.style.top = `${this.y}px`
     this.node.style.left = `${this.x}px`
+  }
+
+  playerMovement(direction) {
+    if (direction === "right") {
+      this.x += this.speed
+      this.node.style.left = `${this.x}px`
+    } else if (direction === "left") {
+      this.x -= this.speed
+      this.node.style.left = `${this.x}px`
+    } else if (direction === "down") {
+      this.y += this.speed
+      this.node.style.top = `${this.y}px`
+    } else if (direction === "up") {
+      this.y -= this.speed
+      this.node.style.top = `${this.y}px`
+    }
   }
 }

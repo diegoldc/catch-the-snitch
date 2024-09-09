@@ -77,14 +77,6 @@ body {
 
 }
 
-/* #game-screen  {
-  display: flex;
-}
-
-#game-over-screen {
+#game-screen, #game-over-screen {
   display: none;
 }
-
-#start-screen {
-  display: none;
-} */
