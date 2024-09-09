@@ -8,21 +8,26 @@ const gameOverScreenNode = document.querySelector("#game-over-screen")
 // game box
 const gameBoxNode = document.querySelector("#game-box")
 
-//boton
+// boton
 const startBtnNode = document.querySelector(".myButton")
+
+// score
+const scoreNode = document.querySelector("#score")
 
 //* VARIABLES GLOBALES
 let magoObj = null
 // let snitchObj = null
-let snicthArary = []
+let snicthArray = []
 let snitchIntervalId = null
 
 let gameIntervalId = null
 
 // let enemigoObj = null
 let enemigoArray = []
-let enemigoVoldemortIntervalId = null
+let enemigoSnapeIntervalId = null
 let enemigoDracoIntervalId = null
+
+let score = 0
 
 //* FUNCIONES
 
@@ -46,8 +51,8 @@ function startGame() {
     addSnitch()
   }, 1500)
 
-  enemigoVoldemortIntervalId = setInterval(() => { // intervalo para añadir enemigo
-    addEnemigoVoldemort()
+  enemigoSnapeIntervalId = setInterval(() => { // intervalo para añadir enemigo
+    addEnemigoSnape()
   }, 2300)
 
   enemigoDracoIntervalId = setInterval(() => { // intervalo para añadir enemigo
@@ -57,7 +62,7 @@ function startGame() {
 }
 
 function gameLoop() {
-  snicthArary.forEach((eachSnitch) => {
+  snicthArray.forEach((eachSnitch) => {
     eachSnitch.automaticMove()
   })
 
@@ -68,6 +73,7 @@ function gameLoop() {
   detectarSiSnitchSalio()
   detectarSiEnemigoSalio()
   detectarColisionMagoEnemigo()
+  detectarColisionMagoSnitch()
 }
 
 function addSnitch() {
@@ -75,29 +81,48 @@ function addSnitch() {
   let randomPositionX = Math.floor(Math.random() * 700)
 
   let newSnitch = new Snitch(randomPositionX)
-  snicthArary.push(newSnitch)
+  snicthArray.push(newSnitch)
 
 }
 
 function detectarSiSnitchSalio() {
 
-  if ((snicthArary[0].y + snicthArary[0].h) <= 0) { // eliminar si llegan al 0px de height
+  if ((snicthArray[0].y + snicthArray[0].h) <= 0) { // eliminar si llegan al 0px de height
     
-    snicthArary[0].node.remove()// Sacar del DOM
-    snicthArary.shift() // Sacarlo de JS
+    snicthArray[0].node.remove()// Sacar del DOM
+    snicthArray.shift() // Sacarlo de JS
 
   }
 }
 
 function detectarColisionMagoSnitch () {
 
+  snicthArray.forEach((eachSnitch, index) => {
+
+
+    if(
+      // medidas para indicar que esta dentro de las medidas de cada enemigo
+      (magoObj.y + magoObj.h) >= eachSnitch.y &&
+      (magoObj.x + magoObj.w) >= eachSnitch.x &&
+      magoObj.x <= (eachSnitch.x + eachSnitch.w) &&
+      magoObj.y <= (eachSnitch.y + eachSnitch.h) 
+    ) {
+
+      score++ // aumentamos score en 1
+      scoreNode.innerText = score
+
+      eachSnitch.node.remove()
+      
+      snicthArray.splice(index, 1) // eliminar solo la snicth que contacte del array
+    }
+  })
 }
 
-function addEnemigoVoldemort () {
+function addEnemigoSnape () {
   let randomPositionX = Math.floor(Math.random() * 700) // añadir enemigo en posicion aleatoria eje x
 
-  let newVoldemort = new Enemigo(randomPositionX, "voldemort")
-  enemigoArray.push(newVoldemort)
+  let newSnape = new Enemigo(randomPositionX, "snape")
+  enemigoArray.push(newSnape)
 
 }
 
@@ -122,16 +147,14 @@ function detectarColisionMagoEnemigo () {
 
 
       if(
-        // magoObj.x < eachEnemigo.x + eachEnemigo.w && 
-        // magoObj.x + magoObj.w > eachEnemigo.w &&
-        // magoObj.y < eachEnemigo.y + eachEnemigo.h &&
-        // magoObj.y + magoObj.h > eachEnemigo.y
+        // medidas para indicar que esta dentro de las medidas de cada enemigo
         (magoObj.y + magoObj.h) >= eachEnemigo.y &&
         (magoObj.x + magoObj.w) >= eachEnemigo.x &&
         magoObj.x <= (eachEnemigo.x + eachEnemigo.w) &&
         magoObj.y <= (eachEnemigo.y + eachEnemigo.h) 
       ) {
         gameOver()
+
       }
     })
 }
@@ -140,7 +163,7 @@ function gameOver () {
   clearInterval(gameIntervalId)
   clearInterval(snitchIntervalId)
   clearInterval(enemigoDracoIntervalId)
-  clearInterval(enemigoVoldemortIntervalId)
+  clearInterval(enemigoSnapeIntervalId)
 
   gameScreenNode.style.display = "none"
   gameOverScreenNode.style.display = "flex"

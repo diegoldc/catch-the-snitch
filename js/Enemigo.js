@@ -9,9 +9,9 @@ class Enemigo {
     this.node = document.createElement("img")
     // this.node.src = "./images/voldemort.png"
 
-    if (type === "voldemort") {
+    if (type === "snape") {
       this.speed = 4
-      this.node.src = "./images/voldemort.png";
+      this.node.src = "./images/snape.png";
     } else if (type === "draco") {
       this.node.src = "./images/draco.png";
     }
