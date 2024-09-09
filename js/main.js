@@ -25,8 +25,10 @@ let gameIntervalId = null
 
 // let enemigoObj = null
 let enemigoArray = []
+let voldemortArray = []
 let enemigoSnapeIntervalId = null
 let enemigoDracoIntervalId = null
+let enemigoVoldemortIntervalId = null
 
 let score = 0
 let health = 3
@@ -61,6 +63,10 @@ function startGame() {
     addEnemigoDraco()
   }, 1500)
 
+  enemigoVoldemortIntervalId = setInterval(() => { // intervalo para añadir enemigo
+    addVoldemort()
+  }, 4000)
+
 }
 
 function gameLoop() {
@@ -72,10 +78,15 @@ function gameLoop() {
     eachEnemigo.automaticMove()
   })
 
+  voldemortArray.forEach((eachVoldemort) => {
+    eachVoldemort.automaticMove()
+  })
+
   detectarSiSnitchSalio()
   detectarSiEnemigoSalio()
   detectarColisionMagoEnemigo()
   detectarColisionMagoSnitch()
+  detectarColisionMagoVoldemort()
 }
 
 function addSnitch() {
@@ -150,6 +161,13 @@ function addEnemigoDraco() {
   enemigoArray.push(newDraco)
 }
 
+function addVoldemort() {
+  let randomPositionY = Math.floor(Math.random() * 450) // añadir enemigo en posicion aleatoria eje x
+
+  let newVoldemort = new Voldemort(randomPositionY, "voldemort")
+  voldemortArray.push(newVoldemort)
+}
+
 function detectarSiEnemigoSalio() {
   if ((enemigoArray[0].y + enemigoArray[0].h) > 450) { // eliminar si se pasa de 450px height
     enemigoArray[0].node.remove()
@@ -175,12 +193,7 @@ function detectarColisionMagoEnemigo() {
     ) {
       eachEnemigo.detectado = true
 
-      if (eachEnemigo.type === "voldemort") {
-        gameOver()
-        
-      } else { 
-        
-        // si choca con snape o draco restamos una vida, luego comprobamos si health = 0 -> gameOver
+       // si choca con snape o draco restamos una vida, luego comprobamos si health = 0 -> gameOver
         health--
         healthNode.innerText = `Health: ${health}`
 
@@ -206,9 +219,35 @@ function detectarColisionMagoEnemigo() {
         eachEnemigo.node.remove()
 
         enemigoArray.splice(index, 1) // eliminar solo la snicth que contacte del array
+              
+    }
+    })
+}
+
+function detectarColisionMagoVoldemort() {
+
+  voldemortArray.forEach((eachVoldemort) => {
+
+    if(eachVoldemort.detectado){ // cuando haya un primer contacto detectado lo pasamos a true, para que no cuente de más por posibles contactos al iterar el foreach
+      return
+    }
+
+    if (
+      // medidas para indicar que esta dentro de las medidas de cada enemigo
+      (magoObj.y + magoObj.h) >= eachVoldemort.y &&
+      (magoObj.x + magoObj.w) >= eachVoldemort.x &&
+      magoObj.x <= (eachVoldemort.x + eachVoldemort.w) &&
+      magoObj.y <= (eachVoldemort.y + eachVoldemort.h)
+    ) {
+      eachVoldemort.detectado = true
+
+       // si choca con snape o draco restamos una vida, luego comprobamos si health = 0 -> gameOver
+        gameOver()
         
-        
-      }
+        eachVoldemort.node.remove()
+
+        voldemortArray.splice(index, 1) // eliminar solo la snicth que contacte del array
+              
     }
     })
 }

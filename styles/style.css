@@ -92,7 +92,7 @@ body {
   margin-bottom: 150px;
 
   position: relative; /* permite posicionar los elementos de forma absoluta dentro del game-box */
-  overflow: hidden; /* previene que los elementos salgan visualmente del game-box */
+  /*overflow: hidden; /* previene que los elementos salgan visualmente del game-box */
   user-select: none; /* previene que los elementos del game-box sean resaltados al hacer click */
 
   background-image: url("../images/fondo.jpg");

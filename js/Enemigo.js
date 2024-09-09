@@ -8,7 +8,6 @@ class Enemigo {
     this.detectado = false // variable para poder manejarlos individualmente
 
     this.node = document.createElement("img")
-    // this.node.src = "./images/voldemort.png"
 
     if (type === "snape") {
       this.speed = 4
@@ -22,7 +21,7 @@ class Enemigo {
     // le damos los estilos al nodo
     this.node.style.width = `${this.w}px`;
     this.node.style.height = `${this.h}px`;
-    this.node.style.position = "absolute"; 
+    this.node.style.position = "absolute";
     this.node.style.top = `${this.y}px`;
     this.node.style.left = `${this.x}px`;
   }
@@ -31,5 +30,6 @@ class Enemigo {
   automaticMove() {
     this.y += this.speed
     this.node.style.top = `${this.y}px`;
+
   }
 }
