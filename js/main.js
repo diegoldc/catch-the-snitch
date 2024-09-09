@@ -84,6 +84,7 @@ function gameLoop() {
 
   detectarSiSnitchSalio()
   detectarSiEnemigoSalio()
+  detectarSiVoldemortSalio()
   detectarColisionMagoEnemigo()
   detectarColisionMagoSnitch()
   detectarColisionMagoVoldemort()
@@ -172,7 +173,13 @@ function detectarSiEnemigoSalio() {
   if ((enemigoArray[0].y + enemigoArray[0].h) > 450) { // eliminar si se pasa de 450px height
     enemigoArray[0].node.remove()
     enemigoArray.shift()
+  }
+}
 
+function detectarSiVoldemortSalio() {
+  if ((voldemortArray[0].x + voldemortArray[0].w) < 0) { // eliminar si se pasa de 450px height
+    voldemortArray[0].node.remove()
+    voldemortArray.shift()
   }
 }
 

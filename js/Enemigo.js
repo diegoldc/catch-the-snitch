@@ -10,7 +10,7 @@ class Enemigo {
     this.node = document.createElement("img")
 
     if (type === "snape") {
-      this.speed = 4
+      this.speed = 1.5
       this.node.src = "./images/snape.png";
     } else if (type === "draco") {
       this.node.src = "./images/draco.png";
