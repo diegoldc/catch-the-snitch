@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee+Tint&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Bungee+Tint&display=swap");
 
 body {
   margin: 0;
@@ -25,14 +24,20 @@ body {
   text-align: center;
   border: 11px dashed rgb(0, 0, 0);
   padding: 20px;
-  background-image: linear-gradient(to right, rgb(241, 93, 35) 0%, rgb(233, 78, 31) 50%, rgb(226, 21, 6) 100%)
-  
+  background-image: linear-gradient(
+    to right,
+    rgb(241, 93, 35) 0%,
+    rgb(233, 78, 31) 50%,
+    rgb(226, 21, 6) 100%
+  );
 }
 
 #instructions:hover {
-  background: #ee3f14; }
-  #instructions:active {
-  background: #350701; }
+  background: #ee3f14;
+}
+#instructions:active {
+  background: #350701;
+}
 
 #instructions ul {
   list-style: none;
@@ -55,11 +60,34 @@ body {
 } */
 
 .myButton {
-  color: rgb(255, 255, 255); font-size: 16px; line-height: 16px; padding: 25px; margin-top: 30px; border-radius: 10px; font-family: Georgia, serif; font-weight: normal; text-decoration: none; font-style: normal; font-variant: normal; text-transform: none; background-image: linear-gradient(to right, rgb(241, 93, 35) 0%, rgb(233, 78, 31) 50%, rgb(226, 21, 6) 100%); box-shadow: rgb(0, 0, 0) 5px 5px 15px 5px; border: 11px inset rgba(219,12,37,0.81); display: inline-block;}
-  .myButton:hover {
-  background: #ee3f14; }
-  .myButton:active {
-  background: #350701; }
+  color: rgb(255, 255, 255);
+  font-size: 16px;
+  line-height: 16px;
+  padding: 25px;
+  margin-top: 30px;
+  border-radius: 10px;
+  font-family: Georgia, serif;
+  font-weight: normal;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  background-image: linear-gradient(
+    to right,
+    rgb(241, 93, 35) 0%,
+    rgb(233, 78, 31) 50%,
+    rgb(226, 21, 6) 100%
+  );
+  box-shadow: rgb(0, 0, 0) 5px 5px 15px 5px;
+  border: 11px inset rgba(219, 12, 37, 0.81);
+  display: inline-block;
+}
+.myButton:hover {
+  background: #ee3f14;
+}
+.myButton:active {
+  background: #350701;
+}
 
 #game-cabecera {
   display: flex;
@@ -68,11 +96,11 @@ body {
   align-items: center;
   margin-bottom: 65px;
   margin-top: 50px;
-  
 }
 
-#score, #timer, #health {
-  
+#score,
+#timer,
+#health {
   padding: 10px;
   background-color: #995c54;
   border: 4px solid #350701;
@@ -81,18 +109,16 @@ body {
   text-align: center;
   height: 50px;
   align-items: center;
-  
 }
-
 
 #game-box {
   background-color: darkgray;
-  width:700px;
-  height:450px;
+  width: 700px;
+  height: 450px;
   margin-bottom: 150px;
 
   position: relative; /* permite posicionar los elementos de forma absoluta dentro del game-box */
-  /*overflow: hidden; /* previene que los elementos salgan visualmente del game-box */
+  overflow: hidden; /* previene que los elementos salgan visualmente del game-box */
   user-select: none; /* previene que los elementos del game-box sean resaltados al hacer click */
 
   background-image: url("../images/fondo.jpg");
@@ -100,11 +126,24 @@ body {
   background-size: cover;
 
   border: 3px solid rgb(0, 0, 0);
-
 }
 
+#result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30;
+  flex-direction: column;
+}
 
-#game-screen, #game-over-screen {
+#result img {
+  margin: 20px;
+  width: 100px;
+  height: auto;
+}
+
+#game-screen,
+#game-over-screen {
   display: none;
   background-color: #f3d3cf;
   border: 3px solid rgb(51, 20, 20);

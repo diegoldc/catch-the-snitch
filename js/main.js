@@ -10,6 +10,7 @@ const gameBoxNode = document.querySelector("#game-box")
 
 // boton
 const startBtnNode = document.querySelector(".myButton")
+const botonRestartNode = document.querySelector("#restartButton")
 
 // score
 const scoreNode = document.querySelector("#score")
@@ -36,6 +37,11 @@ let health = 3
 //* FUNCIONES
 
 function startGame() {
+  score = 0
+  scoreNode.innerText = `Score: ${score}`
+
+  health  = 3
+  healthNode.innerText = `Health: ${health}`
 
   // cambiar pantallas
   startScreenNode.style.display = "none"
@@ -269,6 +275,27 @@ function gameOver() {
   gameOverScreenNode.style.display = "flex"
 }
 
+function restartGame() {
+  gameScreenNode.style.display = "flex"
+  gameOverScreenNode.style.display = "none"
+ 
+  // eliminar mago anterior
+  magoObj.node.remove()
+
+  //eliminar todos los enemigos
+  enemigoArray.forEach((eachEnemigo) => {
+    eachEnemigo.node.remove(); 
+  });
+  enemigoArray = [];
+
+  voldemortArray.forEach((eachVoldemort) => {
+    eachVoldemort.node.remove(); 
+  });
+  voldemortArray = [];
+
+  startGame()
+}
+
 //* EVENT LISTENERS
 
 startBtnNode.addEventListener("click", startGame)
@@ -287,3 +314,5 @@ window.addEventListener("keydown", (event) => {
   } else if (event.key === "ArrowDown")
     magoObj.playerMovement("down")
 })
+
+botonRestartNode.addEventListener("click", restartGame) 
