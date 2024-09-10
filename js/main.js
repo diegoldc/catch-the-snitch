@@ -16,6 +16,9 @@ const botonRestartNode = document.querySelector("#restartButton")
 const scoreNode = document.querySelector("#score")
 const healthNode = document.querySelector("#health")
 
+// timer
+const timerNode = document.querySelector("#timer")
+
 //result
 const resultContainer = document.querySelector("#result");
 
@@ -37,6 +40,10 @@ let enemigoVoldemortIntervalId = null
 
 let score = 0
 let health = 3
+let remainingTime = 120
+let timerInterval = null
+let minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
+let seconds = (remainingTime % 60).toString().padStart(2, "0");
 
 //* FUNCIONES
 
@@ -44,8 +51,15 @@ function startGame() {
   score = 0
   scoreNode.innerText = `Score: ${score}`
 
-  health  = 3
+  health = 3
   healthNode.innerText = `Health: ${health}`
+
+  remainingTime = 120
+
+  let minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
+  let seconds = (remainingTime % 60).toString().padStart(2, "0");
+
+  timerNode.innerText = `${minutes}:${seconds}`;
 
   // cambiar pantallas
   startScreenNode.style.display = "none"
@@ -77,6 +91,16 @@ function startGame() {
     addVoldemort()
   }, 4000)
 
+  timerInterval = setInterval(() => {
+    if (remainingTime === 0) {
+      gameOver()
+    }
+    remainingTime--
+    minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
+    seconds = (remainingTime % 60).toString().padStart(2, "0");
+    timerNode.innerText = `${minutes}:${seconds}`
+  }, 1000)
+
 }
 
 function gameLoop() {
@@ -101,17 +125,21 @@ function gameLoop() {
 }
 
 function addSnitch() {
+  let newSnitch = new Snitch(0)
+  let maxWidth = 700 - newSnitch.w
 
-  let randomPositionX = Math.floor(Math.random() * 700)
+  let randomPositionX = Math.floor(Math.random() * maxWidth)
 
-  let newSnitch = new Snitch(randomPositionX)
+  newSnitch.x = randomPositionX
+  newSnitch.node.style.left = `${newSnitch.x}px`
+
   snicthArray.push(newSnitch)
 
 }
 
 function detectarSiSnitchSalio() {
 
-  if ((snicthArray[0].y + snicthArray[0].h) <= 0) { // eliminar si llegan al 0px de height
+  if ((snicthArray[0].y + snicthArray[0].h) <= 0) { // eliminar si llegan al 0px de eje y
 
     snicthArray[0].node.remove()// Sacar del DOM
     snicthArray.shift() // Sacarlo de JS
@@ -174,8 +202,8 @@ function addEnemigoDraco() {
   let newDraco = new Enemigo(0, "draco")
   let maxWidth = 700 - newDraco.w
 
-  let randomPositionX = Math.floor(Math.random() * maxWidth) 
-  
+  let randomPositionX = Math.floor(Math.random() * maxWidth)
+
   newDraco.x = randomPositionX
   newDraco.node.style.left = `${newDraco.x}px`
 
@@ -183,14 +211,14 @@ function addEnemigoDraco() {
 }
 
 function addVoldemort() {
-  let newVoldemort = new Voldemort (0, "voldemort")
+  let newVoldemort = new Voldemort(0, "voldemort")
   let maxHeight = 450 - newVoldemort.h
 
   let randomPositionY = Math.floor(Math.random() * maxHeight)
 
   newVoldemort.y = randomPositionY
   newVoldemort.node.style.top = `${newVoldemort.y}px`
-  
+
   voldemortArray.push(newVoldemort)
 }
 
@@ -212,7 +240,7 @@ function detectarColisionMagoEnemigo() {
 
   enemigoArray.forEach((eachEnemigo) => {
 
-    if(eachEnemigo.detectado){ // cuando haya un primer contacto detectado lo pasamos a true, para que no cuente de más por posibles contactos al iterar el foreach
+    if (eachEnemigo.detectado) { // cuando haya un primer contacto detectado lo pasamos a true, para que no cuente de más por posibles contactos al iterar el foreach
       return
     }
 
@@ -225,42 +253,42 @@ function detectarColisionMagoEnemigo() {
     ) {
       eachEnemigo.detectado = true
 
-       // si choca con snape o draco restamos una vida, luego comprobamos si health = 0 -> gameOver
-        health--
-        healthNode.innerText = `Health: ${health}`
+      // si choca con snape o draco restamos una vida, luego comprobamos si health = 0 -> gameOver
+      health--
+      healthNode.innerText = `Health: ${health}`
 
-        if (health <= 0) {
-          gameOver()
-        }
+      if (health <= 0) {
+        gameOver()
+      }
 
-        // alerta cuando atrapes la snitch
-        let alertEnemigo = document.createElement('p')
-        alertEnemigo.innerText = "Pillado!"
+      // alerta cuando atrapes la snitch
+      let alertEnemigo = document.createElement('p')
+      alertEnemigo.innerText = "Pillado!"
 
-        // posicionar la alerta
-        // alertSnitch.style.position etc.
+      // posicionar la alerta
+      // alertSnitch.style.position etc.
 
-        gameBoxNode.append(alertEnemigo) // lo añadimos al nodo gamebox
+      gameBoxNode.append(alertEnemigo) // lo añadimos al nodo gamebox
 
-        // desaparece la alerta en 1 segundo
-        setTimeout(() => {
-          alertEnemigo.remove()
-        }, 1000)
+      // desaparece la alerta en 1 segundo
+      setTimeout(() => {
+        alertEnemigo.remove()
+      }, 1000)
 
 
-        eachEnemigo.node.remove()
+      eachEnemigo.node.remove()
 
-        enemigoArray.splice(index, 1) // eliminar solo la snicth que contacte del array
-              
+      enemigoArray.splice(index, 1) // eliminar solo la snicth que contacte del array
+
     }
-    })
+  })
 }
 
 function detectarColisionMagoVoldemort() {
 
   voldemortArray.forEach((eachVoldemort) => {
 
-    if(eachVoldemort.detectado){ // cuando haya un primer contacto detectado lo pasamos a true, para que no cuente de más por posibles contactos al iterar el foreach
+    if (eachVoldemort.detectado) { // cuando haya un primer contacto detectado lo pasamos a true, para que no cuente de más por posibles contactos al iterar el foreach
       return
     }
 
@@ -273,15 +301,15 @@ function detectarColisionMagoVoldemort() {
     ) {
       eachVoldemort.detectado = true
 
-       // si choca con snape o draco restamos una vida, luego comprobamos si health = 0 -> gameOver
-        gameOver()
-        
-        eachVoldemort.node.remove()
+      // si choca con snape o draco restamos una vida, luego comprobamos si health = 0 -> gameOver
+      gameOver()
 
-        voldemortArray.splice(index, 1) // eliminar solo la snicth que contacte del array
-              
+      eachVoldemort.node.remove()
+
+      voldemortArray.splice(index, 1) // eliminar solo la snicth que contacte del array
+
     }
-    })
+  })
 }
 
 function gameOver() {
@@ -290,6 +318,7 @@ function gameOver() {
   clearInterval(enemigoDracoIntervalId)
   clearInterval(enemigoSnapeIntervalId)
   clearInterval(enemigoVoldemortIntervalId)
+  clearInterval(timerInterval)
 
   gameScreenNode.style.display = "none"
   gameOverScreenNode.style.display = "flex"
@@ -300,18 +329,31 @@ function gameOver() {
 function restartGame() {
   gameScreenNode.style.display = "flex"
   gameOverScreenNode.style.display = "none"
- 
+
+  score = 0
+  scoreNode.innerText = `Score: ${score}`
+
+  health = 3
+  healthNode.innerText = `Health: ${health}`
+
+  remainingTime = 120
+
+  let minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
+  let seconds = (remainingTime % 60).toString().padStart(2, "0");
+
+  timerNode.innerText = `${minutes}:${seconds}`;
+
   // eliminar mago anterior
   magoObj.node.remove()
 
   //eliminar todos los enemigos
   enemigoArray.forEach((eachEnemigo) => {
-    eachEnemigo.node.remove(); 
+    eachEnemigo.node.remove();
   });
   enemigoArray = [];
 
   voldemortArray.forEach((eachVoldemort) => {
-    eachVoldemort.node.remove(); 
+    eachVoldemort.node.remove();
   });
   voldemortArray = [];
 
