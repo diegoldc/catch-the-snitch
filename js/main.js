@@ -24,6 +24,10 @@ const resultContainer = document.querySelector("#result");
 const endTimeContainer = document.querySelector("#end-time")
 
 
+
+//"../audio/audio-magic.mp3"
+
+
 //* VARIABLES GLOBALES
 let magoObj = null
 // let snitchObj = null
@@ -52,10 +56,45 @@ let speedIncreaseInterval = null
 let baseSpeed = 2; // Velocidad inicial
 let currentSpeedEnemigo = baseSpeed; // Esta será la velocidad que se multiplica
 
+const audioStart = new Audio("../audio/audio-magic.mp3");
+audioStart.loop = true;
 
-//* FUNCIONES
+const audioGame = new Audio("../audio/audio-prueba.mp3");
+audioGame.loop = true;
+
+
+  audioStart.play()
+
+
+
+// const audio = document.createElement("audio");
+// audio.preload = "auto";
+// audio.src = "https://manzdev.github.io/codevember2017/assets/eye-tiger.mp3";
+// audio.play();
+// document.body.appendChild(audio);
+
+// audioStart.load()
+
+// audioStart.controls = true;
+// audioStart.play();
+
+
+//* FUNCIONES // crear un audio para inicio y otro para game, con distintas variables y que cuando inicie start la otra pare
 
 function startGame() {
+
+  //iniciamos el audio de la pantalla de juego
+
+  // audio.preload = "auto";
+  // audio.src = "../audio/audio-magic.mp3";
+  // audio.play();
+  // document.body.appendChild(audio); // añadimos script audio al final del DOM
+
+  audioStart.pause();
+
+  audioGame.play();
+
+
   score = 0
   scoreNode.innerText = `Score: ${score}`
 
@@ -130,7 +169,7 @@ function gameLoop() {
   voldemortArray.forEach((eachVoldemort) => {
     eachVoldemort.automaticMove()
   })
-  
+
   detectarColisionMagoEnemigo()
   detectarColisionMagoSnitch()
   detectarColisionMagoVoldemort()
@@ -202,7 +241,7 @@ function detectarColisionMagoSnitch() {
 }
 
 function addEnemigoSnape() {
-  
+
   let newSnape = new Enemigo(0, "snape")
   let maxWidth = 700 - newSnape.w
 
@@ -294,9 +333,9 @@ function detectarColisionMagoEnemigo() {
         alertEnemigo.remove()
       }, 1000)
 
-      
+
       eachEnemigo.node.remove()
-      
+
       enemigoArray.splice(index, 1)
 
     }
@@ -332,6 +371,9 @@ function detectarColisionMagoVoldemort() {
 }
 
 function gameOver() {
+  audioGame.pause();
+  audioGame.currentTime = 0
+  
   clearInterval(gameIntervalId)
   clearInterval(snitchIntervalId)
   clearInterval(enemigoDracoIntervalId)
@@ -345,9 +387,14 @@ function gameOver() {
 
   resultContainer.innerText = `You have scored ${score} points and you have lost ${3 - health} lives!`
   endTimeContainer.innerText = `You have survived for ${finalTime} seconds`
+
+  
 }
 
 function restartGame() {
+  
+  audioGame.play()
+
   gameScreenNode.style.display = "flex"
   gameOverScreenNode.style.display = "none"
 
