@@ -3,7 +3,7 @@ class Enemigo {
     this.x = positionX;
     this.y = 0;
     this.w = 50;
-    this.h = 50;
+    this.h = 60;
     this.baseSpeed = 2
     this.speed = currentSpeedEnemigo
     this.detectado = false // variable para poder manejarlos individualmente

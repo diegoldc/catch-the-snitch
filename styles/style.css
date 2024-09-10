@@ -3,6 +3,8 @@
 body {
   margin: 0;
   background-color: lightgray;
+  background-image: url(../images/fondo-castillo.png);
+  background-size: cover;
 }
 
 .title {
@@ -96,36 +98,53 @@ body {
   align-items: center;
   margin-bottom: 65px;
   margin-top: 50px;
+  position: relative;
 }
 
 #score,
 #timer,
 #health {
   padding: 10px;
-  background-color: #995c54;
+  background-color: #8b72aa;
   border: 4px solid #350701;
   border-radius: 10px;
-  width: 90px;
+  width: 120px;
   text-align: center;
-  height: 50px;
+  height: auto;
   align-items: center;
+  color: white;
+  font-size: 25px;
+}
+
+#img-vol {
+  position: absolute;
+  top: -13px;
+  left: 130px;
+  width: 200px;
+  margin-top: 30px;
 }
 
 #game-box {
   background-color: darkgray;
   width: 700px;
   height: 450px;
-  margin-bottom: 150px;
+  margin-bottom: 130px;
 
   position: relative; /* permite posicionar los elementos de forma absoluta dentro del game-box */
   overflow: hidden; /* previene que los elementos salgan visualmente del game-box */
   user-select: none; /* previene que los elementos del game-box sean resaltados al hacer click */
 
   background-image: url("../images/fondo.jpg");
+
   background-position: center;
   background-size: cover;
 
-  border: 3px solid rgb(0, 0, 0);
+  border-width: 20px; /* Ancho del borde */
+  border-style: solid; /* Tipo de borde para aplicar la imagen */
+  border-image: url("../images/borde.png") 30 round; /* Imagen del borde */
+  border-left: url("../images/borde.png") 30 round;
+
+  /* border: 3px solid rgb(0, 0, 0);  */
 }
 
 #final-title {
@@ -146,13 +165,47 @@ body {
   padding: 20px;
 }
 
-#restartButton {
-  margin: 20px;
+.button-restart {
+  margin: 30px 0 50px 0;
+  padding: 10px;
+
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  line-height: 20px;
+  padding: 12px;
+  border-radius: 10px;
+  font-family: Georgia, serif;
+  font-weight: normal;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  background-image: linear-gradient(
+    to right,
+    #a41414 0%,
+    #ec3e1f 50%,
+    #e79e11 100%
+  );
+  box-shadow: 0px 8px 0px 0px #a41414be;
+
+  border-top: 2px solid #a41414be;
+  border-right: none;
+  border-bottom: none;
+  border-left: none;
+  border-image: initial;
+  display: inline-block;
+}
+.button-restart:hover {
+  background: #a414148a;
+}
+.button-restart:active {
+  background: #a4141459;
+  box-shadow: 0px 2px 0px 0px #a41414be;
 }
 
 #game-screen,
 #game-over-screen {
   display: none;
-  background-color: #f3d3cf;
-  border: 3px solid rgb(51, 20, 20);
+  /* background-color: #f3d3cf;
+  border: 3px solid rgb(51, 20, 20); */
 }

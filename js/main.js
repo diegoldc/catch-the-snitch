@@ -56,10 +56,10 @@ let speedIncreaseInterval = null
 let baseSpeed = 2; // Velocidad inicial
 let currentSpeedEnemigo = baseSpeed; // Esta será la velocidad que se multiplica
 
-const audioStart = new Audio("../audio/audio-magic.mp3");
+const audioStart = new Audio("../audio/audio-prueba.mp3");
 audioStart.loop = true;
 
-const audioGame = new Audio("../audio/audio-prueba.mp3");
+const audioGame = new Audio("../audio/audio-magic.mp3");
 audioGame.loop = true;
 
 
@@ -404,7 +404,7 @@ function restartGame() {
   health = 3
   healthNode.innerText = `Health: ${health}`
 
-  remainingTime = 120
+  // remainingTime = 120
 
   let minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
   let seconds = (remainingTime % 60).toString().padStart(2, "0");
@@ -453,19 +453,44 @@ function increaseSpeedOfEnemies(multiplier) {
 
 startBtnNode.addEventListener("click", startGame)
 
-window.addEventListener("keydown", (event) => {
-  //console.log("presionando")
-  if (event.key === "ArrowRight") {
-    //console.log("mov dcha")
-    magoObj.playerMovement("right")
-  } else if (event.key === "ArrowLeft") {
-    //console.log("mov izq")
-    magoObj.playerMovement("left")
-  } else if (event.key === "ArrowUp") {
-    //console.log("mov izq")
+let keysPressed = {}; // Objeto para almacenar las teclas presionadas
+
+function moveMago() {
+  if (keysPressed["ArrowRight"]) {
+    magoObj.playerMovement("right") 
+    magoObj.node.style.transform = "scaleX(1)" // Girar el mago hacia la derecha
+  }
+
+  if (keysPressed["ArrowLeft"]) {
+    magoObj.playerMovement("left") 
+    magoObj.node.style.transform = "scaleX(-1)" 
+  }
+
+  if (keysPressed["ArrowUp"]) {
     magoObj.playerMovement("up")
-  } else if (event.key === "ArrowDown")
-    magoObj.playerMovement("down")
-})
+    magoObj.node.style.transform = "rotate(-45deg)"  
+  }
+
+  if (keysPressed["ArrowDown"]) {
+    magoObj.playerMovement("down") 
+    magoObj.node.style.transform = "rotate(45deg)" 
+  }
+
+// Detectar cuándo se presiona una tecla
+window.addEventListener("keydown", (event) => {
+  keysPressed[event.key] = true;
+});
+
+// Detectar cuándo se suelta una tecla
+window.addEventListener("keyup", (event) => {
+  keysPressed[event.key] = false;
+});
+
+requestAnimationFrame(moveMago); // Llamar a esta función de nuevo en el siguiente frame
+}
+
+// Iniciar la animación del movimiento
+moveMago();
+
 
 botonRestartNode.addEventListener("click", restartGame) 
