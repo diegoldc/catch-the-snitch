@@ -4,7 +4,8 @@ class Enemigo {
     this.y = 0;
     this.w = 50;
     this.h = 50;
-    this.speed = 2
+    this.baseSpeed = 2
+    this.speed = currentSpeedEnemigo
     this.detectado = false // variable para poder manejarlos individualmente
 
     this.node = document.createElement("img")
@@ -30,6 +31,9 @@ class Enemigo {
   automaticMove() {
     this.y += this.speed
     this.node.style.top = `${this.y}px`;
+  }
 
+  actualizarSpeed() {
+    this.speed = currentSpeedEnemigo
   }
 }

@@ -47,6 +47,12 @@ let minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
 let seconds = (remainingTime % 60).toString().padStart(2, "0");
 let finalTime
 
+let speedIncreaseInterval = null
+
+let baseSpeed = 2; // Velocidad inicial
+let currentSpeedEnemigo = baseSpeed; // Esta será la velocidad que se multiplica
+
+
 //* FUNCIONES
 
 function startGame() {
@@ -102,6 +108,13 @@ function startGame() {
     seconds = (remainingTime % 60).toString().padStart(2, "0");
     timerNode.innerText = `${minutes}:${seconds}`
   }, 1000)
+
+  if (speedIncreaseInterval) {
+    clearInterval(speedIncreaseInterval);
+  }
+  speedIncreaseInterval = setInterval(() => {
+    increaseSpeedOfEnemies(2); // Aumenta la velocidad por 2x
+  }, 10000); // 30 sec
 
 }
 
@@ -325,6 +338,7 @@ function gameOver() {
   clearInterval(enemigoSnapeIntervalId)
   clearInterval(enemigoVoldemortIntervalId)
   clearInterval(timerInterval)
+  clearInterval(speedIncreaseInterval)
 
   gameScreenNode.style.display = "none"
   gameOverScreenNode.style.display = "flex"
@@ -377,6 +391,16 @@ function restartGame() {
 
   startGame()
 }
+
+function increaseSpeedOfEnemies(multiplier) {
+  currentSpeedEnemigo *= multiplier
+
+  enemigoArray.forEach((eachEnemigo) => {
+    eachEnemigo.actualizarSpeed()
+  })
+}
+
+
 
 //* EVENT LISTENERS
 
