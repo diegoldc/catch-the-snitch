@@ -16,6 +16,10 @@ const botonRestartNode = document.querySelector("#restartButton")
 const scoreNode = document.querySelector("#score")
 const healthNode = document.querySelector("#health")
 
+//result
+const resultContainer = document.querySelector("#result");
+
+
 //* VARIABLES GLOBALES
 let magoObj = null
 // let snitchObj = null
@@ -154,24 +158,39 @@ function detectarColisionMagoSnitch() {
 }
 
 function addEnemigoSnape() {
-  let randomPositionX = Math.floor(Math.random() * 700) // añadir enemigo en posicion aleatoria eje x
+  let newSnape = new Enemigo(0, "snape")
+  let maxWidth = 700 - newSnape.w
 
-  let newSnape = new Enemigo(randomPositionX, "snape")
+  let randomPositionX = Math.floor(Math.random() * maxWidth) // añadir enemigo en posicion aleatoria eje x
+
+  newSnape.x = randomPositionX
+  newSnape.node.style.left = `${newSnape.x}px`
+
   enemigoArray.push(newSnape)
 
 }
 
 function addEnemigoDraco() {
-  let randomPositionX = Math.floor(Math.random() * 700) // añadir enemigo en posicion aleatoria eje x
+  let newDraco = new Enemigo(0, "draco")
+  let maxWidth = 700 - newDraco.w
 
-  let newDraco = new Enemigo(randomPositionX, "draco")
+  let randomPositionX = Math.floor(Math.random() * maxWidth) 
+  
+  newDraco.x = randomPositionX
+  newDraco.node.style.left = `${newDraco.x}px`
+
   enemigoArray.push(newDraco)
 }
 
 function addVoldemort() {
-  let randomPositionY = Math.floor(Math.random() * 450) // añadir enemigo en posicion aleatoria eje x
+  let newVoldemort = new Voldemort (0, "voldemort")
+  let maxHeight = 450 - newVoldemort.h
 
-  let newVoldemort = new Voldemort(randomPositionY, "voldemort")
+  let randomPositionY = Math.floor(Math.random() * maxHeight)
+
+  newVoldemort.y = randomPositionY
+  newVoldemort.node.style.top = `${newVoldemort.y}px`
+  
   voldemortArray.push(newVoldemort)
 }
 
@@ -270,9 +289,12 @@ function gameOver() {
   clearInterval(snitchIntervalId)
   clearInterval(enemigoDracoIntervalId)
   clearInterval(enemigoSnapeIntervalId)
+  clearInterval(enemigoVoldemortIntervalId)
 
   gameScreenNode.style.display = "none"
   gameOverScreenNode.style.display = "flex"
+
+  resultContainer.innerText = `You scored ${score} and you lost ${3 - health} lives!`
 }
 
 function restartGame() {
