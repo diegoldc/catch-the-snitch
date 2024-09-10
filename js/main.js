@@ -21,6 +21,7 @@ const timerNode = document.querySelector("#timer")
 
 //result
 const resultContainer = document.querySelector("#result");
+const endTimeContainer = document.querySelector("#end-time")
 
 
 //* VARIABLES GLOBALES
@@ -40,10 +41,11 @@ let enemigoVoldemortIntervalId = null
 
 let score = 0
 let health = 3
-let remainingTime = 120
+let remainingTime = 0
 let timerInterval = null
 let minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
 let seconds = (remainingTime % 60).toString().padStart(2, "0");
+let finalTime
 
 //* FUNCIONES
 
@@ -54,7 +56,7 @@ function startGame() {
   health = 3
   healthNode.innerText = `Health: ${health}`
 
-  remainingTime = 120
+  remainingTime = 0
 
   let minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
   let seconds = (remainingTime % 60).toString().padStart(2, "0");
@@ -92,10 +94,10 @@ function startGame() {
   }, 4000)
 
   timerInterval = setInterval(() => {
-    if (remainingTime === 0) {
-      gameOver()
-    }
-    remainingTime--
+    // if (remainingTime === 0) {
+    //   gameOver()
+    // }
+    remainingTime++
     minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
     seconds = (remainingTime % 60).toString().padStart(2, "0");
     timerNode.innerText = `${minutes}:${seconds}`
@@ -115,13 +117,14 @@ function gameLoop() {
   voldemortArray.forEach((eachVoldemort) => {
     eachVoldemort.automaticMove()
   })
-
-  detectarSiSnitchSalio()
-  detectarSiEnemigoSalio()
-  detectarSiVoldemortSalio()
+  
   detectarColisionMagoEnemigo()
   detectarColisionMagoSnitch()
   detectarColisionMagoVoldemort()
+  detectarSiEnemigoSalio()
+  detectarSiSnitchSalio()
+  detectarSiVoldemortSalio()
+
 }
 
 function addSnitch() {
@@ -186,6 +189,7 @@ function detectarColisionMagoSnitch() {
 }
 
 function addEnemigoSnape() {
+  
   let newSnape = new Enemigo(0, "snape")
   let maxWidth = 700 - newSnape.w
 
@@ -238,7 +242,7 @@ function detectarSiVoldemortSalio() {
 
 function detectarColisionMagoEnemigo() {
 
-  enemigoArray.forEach((eachEnemigo) => {
+  enemigoArray.forEach((eachEnemigo, index) => {
 
     if (eachEnemigo.detectado) { // cuando haya un primer contacto detectado lo pasamos a true, para que no cuente de más por posibles contactos al iterar el foreach
       return
@@ -258,7 +262,9 @@ function detectarColisionMagoEnemigo() {
       healthNode.innerText = `Health: ${health}`
 
       if (health <= 0) {
+        finalTime = remainingTime
         gameOver()
+        return
       }
 
       // alerta cuando atrapes la snitch
@@ -275,10 +281,10 @@ function detectarColisionMagoEnemigo() {
         alertEnemigo.remove()
       }, 1000)
 
-
+      
       eachEnemigo.node.remove()
-
-      enemigoArray.splice(index, 1) // eliminar solo la snicth que contacte del array
+      
+      enemigoArray.splice(index, 1)
 
     }
   })
@@ -286,7 +292,7 @@ function detectarColisionMagoEnemigo() {
 
 function detectarColisionMagoVoldemort() {
 
-  voldemortArray.forEach((eachVoldemort) => {
+  voldemortArray.forEach((eachVoldemort, index) => {
 
     if (eachVoldemort.detectado) { // cuando haya un primer contacto detectado lo pasamos a true, para que no cuente de más por posibles contactos al iterar el foreach
       return
@@ -301,7 +307,7 @@ function detectarColisionMagoVoldemort() {
     ) {
       eachVoldemort.detectado = true
 
-      // si choca con snape o draco restamos una vida, luego comprobamos si health = 0 -> gameOver
+      finalTime = remainingTime
       gameOver()
 
       eachVoldemort.node.remove()
@@ -323,7 +329,8 @@ function gameOver() {
   gameScreenNode.style.display = "none"
   gameOverScreenNode.style.display = "flex"
 
-  resultContainer.innerText = `You scored ${score} and you lost ${3 - health} lives!`
+  resultContainer.innerText = `You have scored ${score} points and you have lost ${3 - health} lives!`
+  endTimeContainer.innerText = `You have survived for ${finalTime} seconds`
 }
 
 function restartGame() {
@@ -348,14 +355,25 @@ function restartGame() {
 
   //eliminar todos los enemigos
   enemigoArray.forEach((eachEnemigo) => {
-    eachEnemigo.node.remove();
-  });
-  enemigoArray = [];
+    if (eachEnemigo.node) {
+      eachEnemigo.node.remove()
+    }
+  })
+  enemigoArray = []
 
   voldemortArray.forEach((eachVoldemort) => {
-    eachVoldemort.node.remove();
-  });
-  voldemortArray = [];
+    if (eachVoldemort.node) {
+      eachVoldemort.node.remove()
+    }
+  })
+  voldemortArray = []
+
+  snicthArray.forEach((eachSnitch) => {
+    if (eachSnitch.node) {
+      eachSnitch.node.remove()
+    }
+  })
+  snicthArray = []
 
   startGame()
 }
