@@ -39,6 +39,7 @@ let gameIntervalId = null
 // let enemigoObj = null
 let enemigoArray = []
 let voldemortArray = []
+let hechizoArray = []
 let enemigoSnapeIntervalId = null
 let enemigoDracoIntervalId = null
 let enemigoVoldemortIntervalId = null
@@ -64,19 +65,9 @@ audioGame.loop = true;
 
 document.addEventListener("click", () => {
   audioStart.play()
+  audioStart.volume = 0.1
 }, { once:true})
 
-
-// const audio = document.createElement("audio");
-// audio.preload = "auto";
-// audio.src = "https://manzdev.github.io/codevember2017/assets/eye-tiger.mp3";
-// audio.play();
-// document.body.appendChild(audio);
-
-// audioStart.load()
-
-// audioStart.controls = true;
-// audioStart.play();
 
 
 //* FUNCIONES // crear un audio para inicio y otro para game, con distintas variables y que cuando inicie start la otra pare
@@ -92,8 +83,9 @@ function startGame() {
 
   audioStart.pause();
 
-  audioGame.play();
 
+  audioGame.play();
+  audioGame.volume = 0.5
 
   score = 0
   scoreNode.innerText = `Score: ${score}`
@@ -170,12 +162,17 @@ function gameLoop() {
     eachVoldemort.automaticMove()
   })
 
+  moveHechizos()
+  detectarColisionHechizoEnemigo()
+
   detectarColisionMagoEnemigo()
   detectarColisionMagoSnitch()
   detectarColisionMagoVoldemort()
+  detectarSiHechizoSalio()
   detectarSiEnemigoSalio()
   detectarSiSnitchSalio()
   detectarSiVoldemortSalio()
+  
 
 }
 
@@ -289,6 +286,16 @@ function detectarSiVoldemortSalio() {
   if ((voldemortArray[0].x + voldemortArray[0].w) < 0) { // eliminar si se pasa de 450px height
     voldemortArray[0].node.remove()
     voldemortArray.shift()
+  }
+}
+
+function detectarSiHechizoSalio() {
+  if ((hechizoArray[0].x + hechizoArray[0].w) < 0) { // eliminar si se pasa de 450px height
+    hechizoArray[0].node.remove()
+    hechizoArray.shift()
+  } else if((hechizoArray[0].y + hechizoArray[0].h) > 450) { // eliminar si se pasa de 450px height
+    hechizoArray[0].node.remove()
+    hechizoArray.shift()
   }
 }
 
@@ -449,6 +456,68 @@ function increaseSpeedOfEnemies(multiplier) {
   })
 }
 
+function addHechizo() {
+
+  let direction = "up"; // Por defecto, hacia arriba
+  if (keysPressed["ArrowRight"]) direction = "right";
+  if (keysPressed["ArrowLeft"]) direction = "left";
+  if (keysPressed["ArrowDown"]) direction = "down";
+
+  let newHechizo = new Hechizo(magoObj.x + magoObj.w / 2, magoObj.y, direction);
+  hechizoArray.push(newHechizo);
+
+}
+
+function detectarColisionHechizoEnemigo() {
+  hechizoArray.forEach((eachHechizo, hechizoIndex) => {
+    enemigoArray.forEach((eachenemigo, enemigoIndex) => {
+      if (
+        eachHechizo.x < eachenemigo.x + eachenemigo.w &&
+        eachHechizo.x + eachHechizo.w > eachenemigo.x &&
+        eachHechizo.y < eachenemigo.y + eachenemigo.h &&
+        eachHechizo.y + eachHechizo.h > eachenemigo.y
+      ) {
+        // Eliminar el enemigo y el hechizo si colisionan
+        eachHechizo.node.remove();
+        eachenemigo.node.remove();
+
+        hechizoArray.splice(hechizoIndex, 1);
+        enemigoArray.splice(enemigoIndex, 1);
+
+        score++; // Aumentar el score
+        scoreNode.innerText = `Score: ${score}`;
+      }
+    });
+  });
+}
+
+function moveHechizos() {
+  hechizoArray.forEach((eachHechizo, index) => {
+    eachHechizo.move(); // Mover hechizo
+    
+    if (eachHechizo.y + eachHechizo.h < 0) { // Si el hechizo sale de la pantalla
+      eachHechizo.node.remove(); // Eliminarlo del DOM
+      hechizoArray.splice(index, 1); // Eliminarlo del array
+    }
+  });
+}
+
+  // hit = 
+  // (element.x < enemigo.x + enemigo.w &&         // check left side of element (ship or bullet)
+  // element.x + element.width > enemigo.x &&           // check right side
+  // element.y < enemigo.y + enemigo.h &&         // check top side
+  // element.y + element.height > enemigo.y);           // check bottom side
+
+  // // if there is a hit, remove the asteroid and bullet from their array
+  // if (hit) {
+  //     hechizoArray.splice(i, 1);
+  //     enemigoArray.splice(j, 1);
+  //     hit = false;    // set hit flag back to false
+  //     score ++;       // increase score
+  //     //playSound(asteroidExplodeSound);
+      
+  // }
+
 
 
 //* EVENT LISTENERS
@@ -494,5 +563,8 @@ requestAnimationFrame(moveMago); // Llamar a esta función de nuevo en el siguie
 // Iniciar la animación del movimiento
 moveMago();
 
+window.addEventListener("click", () => {
+  addHechizo()
+})
 
 botonRestartNode.addEventListener("click", restartGame) 
