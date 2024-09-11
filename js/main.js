@@ -56,10 +56,10 @@ let speedIncreaseInterval = null
 let baseSpeed = 2; // Velocidad inicial
 let currentSpeedEnemigo = baseSpeed; // Esta será la velocidad que se multiplica
 
-const audioStart = new Audio("../audio/audio-prueba.mp3");
+const audioStart = new Audio("./audio/audio-prueba.mp3");
 audioStart.loop = true;
 
-const audioGame = new Audio("../audio/audio-magic.mp3");
+const audioGame = new Audio("./audio/audio-magic.mp3");
 audioGame.loop = true;
 
 document.addEventListener("click", () => {
@@ -478,7 +478,7 @@ function moveMago() {
     magoObj.node.style.transform = "rotate(45deg)" 
   }
 
-// Detectar cuándo se presiona una tecla
+// está presionada una tecla
 window.addEventListener("keydown", (event) => {
   keysPressed[event.key] = true;
 });
