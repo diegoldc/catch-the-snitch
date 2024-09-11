@@ -69,14 +69,23 @@ document.addEventListener("click", () => {
 const audioGame = new Audio("./audio/audio-magic.mp3")
 audioGame.loop = true
 
+const audioGameOver = new Audio("./audio/audio-game-over.wav")
+audioGame.loop = false
+
 const audioHechizo = new Audio("./audio/audio-hechizo.mp3")
 audioHechizo.loop = false
+
+//const audio quitar vida
+const audioSnitch = new Audio("./audio/audio-snitch.mmp3")
+audioSnitch.loop = false
+//const audio golpear boom
+
 
 //variable para controlar el mute
 let isMuted = false
 
 
-//* FUNCIONES // crear un audio para inicio y otro para game, con distintas variables y que cuando inicie start la otra pare
+//* FUNCIONES // 
 
 function startGame() {
 
@@ -216,6 +225,9 @@ function detectarColisionMagoSnitch() {
       magoObj.y <= (eachSnitch.y + eachSnitch.h)
     ) {
 
+      // audioSnitch.volume = 1
+      // audioSnitch.play()
+
       score++ // aumentamos score en 1
       scoreNode.innerText = `Score: ${score}`
 
@@ -240,7 +252,7 @@ function detectarColisionMagoSnitch() {
       setTimeout(() => {
         alertSnitch.remove()
       }, 1000)
-
+      
 
       eachSnitch.node.remove()
 
@@ -425,6 +437,9 @@ function detectarColisionMagoVoldemort() {
 function gameOver() {
   audioGame.pause();
   audioGame.currentTime = 0
+
+  audioGameOver.play()
+  audioGameOver.volume = 0.2
 
   enableScroll()
 
@@ -719,6 +734,7 @@ muteButton.addEventListener('click', () => {
     audioStart.muted = false;
     audioGame.muted = false;
     audioHechizo.muted = false;
+    // audioStart.play()
     muteButton.src = '../images/unmute.png'; // Cambia la imagen a "unmuted"
   } else {
     // Si no está muteado, lo muteamos
@@ -736,9 +752,9 @@ startBtnNode.addEventListener("click", startGame)
 
 window.addEventListener("keydown", (event) => {
   if (gameScreenNode.style.display === "flex") {
-    if (event.key === "j") {
+    if (event.key === "4") {
       addHechizo();
-    } else if (event.key === "l") {
+    } else if (event.key === "6") {
       addFlame();
     }
   }
