@@ -1,7 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Bungee+Tint&display=swap");
 
-body {
+html, body {
   margin: 0;
+  padding: 0;
   background-color: lightgray;
   background-image: url(../images/fondo-castillo.png);
   background-size: cover;

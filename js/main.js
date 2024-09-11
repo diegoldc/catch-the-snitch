@@ -48,20 +48,20 @@ let score = 0
 let health = 3
 let remainingTime = 0
 let timerInterval = null
-let minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
-let seconds = (remainingTime % 60).toString().padStart(2, "0");
+let minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0")
+let seconds = (remainingTime % 60).toString().padStart(2, "0")
 let finalTime
 
 let speedIncreaseInterval = null
 
-let baseSpeed = 2; // Velocidad inicial
-let currentSpeedEnemigo = baseSpeed; // Esta será la velocidad que se multiplica
+let baseSpeed = 2 // Velocidad inicial
+let currentSpeedEnemigo = baseSpeed // Esta será la velocidad que se multiplica
 
-const audioStart = new Audio("./audio/audio-prueba.mp3");
-audioStart.loop = true;
+const audioStart = new Audio("./audio/audio-prueba.mp3")
+audioStart.loop = true
 
-const audioGame = new Audio("./audio/audio-magic.mp3");
-audioGame.loop = true;
+const audioGame = new Audio("./audio/audio-magic.mp3")
+audioGame.loop = true
 
 document.addEventListener("click", () => {
   audioStart.play()
@@ -76,15 +76,8 @@ function startGame() {
 
   //iniciamos el audio de la pantalla de juego
 
-  // audio.preload = "auto";
-  // audio.src = "../audio/audio-magic.mp3";
-  // audio.play();
-  // document.body.appendChild(audio); // añadimos script audio al final del DOM
-
-  audioStart.pause();
-
-
-  audioGame.play();
+  audioStart.pause()
+  audioGame.play()
   audioGame.volume = 0.5
 
   score = 0
@@ -416,10 +409,10 @@ function restartGame() {
 
   remainingTime = 0
 
-  let minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
-  let seconds = (remainingTime % 60).toString().padStart(2, "0");
+  let minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0")
+  let seconds = (remainingTime % 60).toString().padStart(2, "0")
 
-  timerNode.innerText = `${minutes}:${seconds}`;
+  timerNode.innerText = `${minutes}:${seconds}`
 
   currentSpeedEnemigo = baseSpeed
 
@@ -462,12 +455,12 @@ function increaseSpeedOfEnemies(multiplier) {
 function addHechizo() {
 
   let direction = "up"; // Por defecto, hacia arriba
-  if (keysPressed["ArrowRight"]) direction = "right";
-  if (keysPressed["ArrowLeft"]) direction = "left";
-  if (keysPressed["ArrowDown"]) direction = "down";
+  if (keysPressed["ArrowRight"]) direction = "right"
+  if (keysPressed["ArrowLeft"]) direction = "left"
+  if (keysPressed["ArrowDown"]) direction = "down"
 
-  let newHechizo = new Hechizo(magoObj.x + magoObj.w / 2, magoObj.y, direction);
-  hechizoArray.push(newHechizo);
+  let newHechizo = new Hechizo(magoObj.x + magoObj.w / 2, magoObj.y, direction)
+  hechizoArray.push(newHechizo)
 
 }
 
@@ -481,17 +474,17 @@ function detectarColisionHechizoEnemigo() {
         eachHechizo.y + eachHechizo.h > eachenemigo.y
       ) {
         // Eliminar el enemigo y el hechizo si colisionan
-        eachHechizo.node.remove();
-        eachenemigo.node.remove();
+        eachHechizo.node.remove()
+        eachenemigo.node.remove()
 
-        hechizoArray.splice(hechizoIndex, 1);
-        enemigoArray.splice(enemigoIndex, 1);
+        hechizoArray.splice(hechizoIndex, 1)
+        enemigoArray.splice(enemigoIndex, 1)
 
         score++; // Aumentar el score
-        scoreNode.innerText = `Score: ${score}`;
+        scoreNode.innerText = `Score: ${score}`
       }
-    });
-  });
+    })
+  })
 }
 
 function moveHechizos() {
@@ -502,33 +495,18 @@ function moveHechizos() {
       eachHechizo.node.remove(); // Eliminarlo del DOM
       hechizoArray.splice(index, 1); // Eliminarlo del array
     }
-  });
+  })
 }
 
-  // hit = 
-  // (element.x < enemigo.x + enemigo.w &&         // check left side of element (ship or bullet)
-  // element.x + element.width > enemigo.x &&           // check right side
-  // element.y < enemigo.y + enemigo.h &&         // check top side
-  // element.y + element.height > enemigo.y);           // check bottom side
 
-  // // if there is a hit, remove the asteroid and bullet from their array
-  // if (hit) {
-  //     hechizoArray.splice(i, 1);
-  //     enemigoArray.splice(j, 1);
-  //     hit = false;    // set hit flag back to false
-  //     score ++;       // increase score
-  //     //playSound(asteroidExplodeSound);
-      
-  // }
-
-  // Función para deshabilitar el scroll
+  // deshabilitar el scroll
 function disableScroll() {
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden'
 }
 
-// Función para habilitar el scroll
+
 function enableScroll() {
-  document.body.style.overflow = 'auto';
+  document.body.style.overflow = 'auto'
 }
 
 
@@ -536,7 +514,7 @@ function enableScroll() {
 
 startBtnNode.addEventListener("click", startGame)
 
-let keysPressed = {}; // Objeto para almacenar las teclas presionadas
+let keysPressed = {} // Objeto para almacenar las teclas presionadas
 
 function moveMago() {
   if (keysPressed["ArrowRight"]) {
@@ -561,19 +539,19 @@ function moveMago() {
 
 // está presionada una tecla
 window.addEventListener("keydown", (event) => {
-  keysPressed[event.key] = true;
+  keysPressed[event.key] = true
 });
 
 // Detectar cuándo se suelta una tecla
 window.addEventListener("keyup", (event) => {
-  keysPressed[event.key] = false;
+  keysPressed[event.key] = false
 });
 
 requestAnimationFrame(moveMago); // Llamar a esta función de nuevo en el siguiente frame
 }
 
 // Iniciar la animación del movimiento
-moveMago();
+moveMago()
 
 window.addEventListener("click", () => {
   addHechizo()
