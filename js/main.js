@@ -25,9 +25,6 @@ const endTimeContainer = document.querySelector("#end-time")
 
 
 
-//"../audio/audio-magic.mp3"
-
-
 //* VARIABLES GLOBALES
 let magoObj = null
 // let snitchObj = null
@@ -57,16 +54,22 @@ let speedIncreaseInterval = null
 let baseSpeed = 2 // Velocidad inicial
 let currentSpeedEnemigo = baseSpeed // Esta será la velocidad que se multiplica
 
+let keysPressed = {} // Objeto para almacenar las teclas presionadas
+
 const audioStart = new Audio("./audio/audio-prueba.mp3")
 audioStart.loop = true
-
-const audioGame = new Audio("./audio/audio-magic.mp3")
-audioGame.loop = true
 
 document.addEventListener("click", () => {
   audioStart.play()
   audioStart.volume = 0.1
 }, { once:true})
+
+const audioGame = new Audio("./audio/audio-magic.mp3")
+audioGame.loop = true
+
+const audioHechizo = new Audio("./audio/audio-hechizo")
+audioHechizo.loop = false
+
 
 
 
@@ -101,7 +104,7 @@ function startGame() {
   magoObj = new Mago()
   // snitchObj = new Snitch()
   // enemigoObj = new Enemigo()
-
+  
   // iniciar intervalos de juego
   gameIntervalId = setInterval(() => {
     gameLoop()
@@ -156,6 +159,7 @@ function gameLoop() {
     eachVoldemort.automaticMove()
   })
 
+  
   moveHechizos()
   detectarColisionHechizoEnemigo()
 
@@ -233,8 +237,9 @@ function detectarColisionMagoSnitch() {
 
 function addEnemigoSnape() {
 
+  const gameBoxWidth = gameBoxNode.offsetWidth - 40;
   let newSnape = new Enemigo(0, "snape")
-  let maxWidth = 700 - newSnape.w
+  let maxWidth = gameBoxWidth - newSnape.w
 
   let randomPositionX = Math.floor(Math.random() * maxWidth) // añadir enemigo en posicion aleatoria eje x
 
@@ -246,8 +251,9 @@ function addEnemigoSnape() {
 }
 
 function addEnemigoDraco() {
+  const gameBoxWidth = gameBoxNode.offsetWidth - 40;
   let newDraco = new Enemigo(0, "draco")
-  let maxWidth = 700 - newDraco.w
+  let maxWidth = gameBoxWidth - newDraco.w
 
   let randomPositionX = Math.floor(Math.random() * maxWidth)
 
@@ -258,8 +264,11 @@ function addEnemigoDraco() {
 }
 
 function addVoldemort() {
+
+  
+  const gameBoxHeight = gameBoxNode.offsetHeight - 40
   let newVoldemort = new Voldemort(0, "voldemort")
-  let maxHeight = 450 - newVoldemort.h
+  let maxHeight = gameBoxHeight - newVoldemort.h
 
   let randomPositionY = Math.floor(Math.random() * maxHeight)
 
@@ -288,6 +297,12 @@ function detectarSiHechizoSalio() {
     hechizoArray[0].node.remove()
     hechizoArray.shift()
   } else if((hechizoArray[0].y + hechizoArray[0].h) > 450) { // eliminar si se pasa de 450px height
+    hechizoArray[0].node.remove()
+    hechizoArray.shift()
+  } else if((hechizoArray[0].y + hechizoArray[0].h) < 0) { 
+    hechizoArray[0].node.remove()
+    hechizoArray.shift()
+  } else if((hechizoArray[0].x) > 700) { 
     hechizoArray[0].node.remove()
     hechizoArray.shift()
   }
@@ -455,12 +470,27 @@ function increaseSpeedOfEnemies(multiplier) {
 function addHechizo() {
 
   let direction = "up"; // Por defecto, hacia arriba
-  if (keysPressed["ArrowRight"]) direction = "right"
-  if (keysPressed["ArrowLeft"]) direction = "left"
-  if (keysPressed["ArrowDown"]) direction = "down"
+  if (keysPressed["d"]) {
+    direction = "right"
+  } else if (keysPressed["a"]) {
+    direction = "left"
+  } else if (keysPressed["s"]) {
+    direction = "down"
+  } 
 
   let newHechizo = new Hechizo(magoObj.x + magoObj.w / 2, magoObj.y, direction)
+  if (direction === "up") {
+    newHechizo.node.style.transform = "rotate(-70deg)"
+  } else if (direction === "rigth") {
+    newHechizo.node.style.transform = "scaleX(1)"
+  } else if (direction === "left") {
+    newHechizo.node.style.transform = "scaleX(-1)"
+  } else if (direction === "down") {
+    newHechizo.node.style.transform = "rotate(70deg)"
+  }
+
   hechizoArray.push(newHechizo)
+  
 
 }
 
@@ -509,30 +539,23 @@ function enableScroll() {
   document.body.style.overflow = 'auto'
 }
 
-
-//* EVENT LISTENERS
-
-startBtnNode.addEventListener("click", startGame)
-
-let keysPressed = {} // Objeto para almacenar las teclas presionadas
-
 function moveMago() {
-  if (keysPressed["ArrowRight"]) {
+  if (keysPressed["d"]) {
     magoObj.playerMovement("right") 
     magoObj.node.style.transform = "scaleX(1)" // Girar el mago hacia la derecha
   }
 
-  if (keysPressed["ArrowLeft"]) {
+  if (keysPressed["a"]) {
     magoObj.playerMovement("left") 
     magoObj.node.style.transform = "scaleX(-1)" 
   }
 
-  if (keysPressed["ArrowUp"]) {
+  if (keysPressed["w"]) {
     magoObj.playerMovement("up")
     magoObj.node.style.transform = "rotate(-45deg)"  
   }
 
-  if (keysPressed["ArrowDown"]) {
+  if (keysPressed["s"]) {
     magoObj.playerMovement("down") 
     magoObj.node.style.transform = "rotate(45deg)" 
   }
@@ -552,6 +575,10 @@ requestAnimationFrame(moveMago); // Llamar a esta función de nuevo en el siguie
 
 // Iniciar la animación del movimiento
 moveMago()
+
+//* EVENT LISTENERS
+
+startBtnNode.addEventListener("click", startGame)
 
 window.addEventListener("click", () => {
   addHechizo()

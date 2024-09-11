@@ -138,7 +138,7 @@ html, body {
   height: 50vh; /* 50% del alto de la ventana */
   max-width: 700px; 
   max-height: 450px; 
-  margin-bottom: 130px;
+  /*margin-bottom: 130px;*/
 
   position: relative; /* permite posicionar los elementos de forma absoluta dentro del game-box */
   overflow: hidden; /* previene que los elementos salgan visualmente del game-box */

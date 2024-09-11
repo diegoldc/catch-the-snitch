@@ -41,9 +41,9 @@ class Hechizo {
     this.node.style.top = `${this.y}px`;
   }
   // Eliminar el hechizo del DOM
-  remove() {
-    this.node.remove();
-  }
+  // remove() {
+  //   this.node.remove();
+  // }
 
   //colisión con un enemigo
   checkCollisionWithEnemy(enemy) {

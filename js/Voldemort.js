@@ -2,7 +2,7 @@ class Voldemort {
   constructor(positionY, type) {
     this.x = gameBoxNode.offsetWidth;
     this.y = positionY;
-    this.w = 60;
+    this.w = 50;
     this.h = 70;
     this.speed = 2
     this.detectado = false 
@@ -10,7 +10,7 @@ class Voldemort {
     this.node = document.createElement("img")
     
     if (type === "voldemort") {
-      this.node.src = "./images/volde.png"
+      this.node.src = "./images/volde2.png"
     }
     
 

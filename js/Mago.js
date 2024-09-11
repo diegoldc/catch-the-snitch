@@ -19,8 +19,8 @@ class Mago {
   }
 
   playerMovement(direction) {
-    const gameBoxWidth = 700; // Ancho del game-box en el CSS
-    const gameBoxHeight = 450; // Altura del game-box en el CSS
+    const gameBoxWidth = gameBoxNode.offsetWidth - 40 // Ancho del game-box en el CSS
+    const gameBoxHeight = gameBoxNode.offsetHeight - 40 // Altura del game-box en el CSS
 
     if (direction === "right") {
 
