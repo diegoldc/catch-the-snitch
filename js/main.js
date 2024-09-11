@@ -51,7 +51,7 @@ let finalTime
 
 let speedIncreaseInterval = null
 
-let baseSpeed = 2 // Velocidad inicial
+let baseSpeed = 1 // Velocidad inicial
 let currentSpeedEnemigo = baseSpeed // Esta será la velocidad que se multiplica
 
 let keysPressed = {} // Objeto para almacenar las teclas presionadas
@@ -116,15 +116,15 @@ function startGame() {
 
   enemigoSnapeIntervalId = setInterval(() => { // intervalo para añadir enemigo
     addEnemigoSnape()
-  }, 2300)
+  }, 3000)
 
   enemigoDracoIntervalId = setInterval(() => { // intervalo para añadir enemigo
     addEnemigoDraco()
-  }, 1500)
+  }, 2500)
 
   enemigoVoldemortIntervalId = setInterval(() => { // intervalo para añadir enemigo
     addVoldemort()
-  }, 4000)
+  }, 4500)
 
   timerInterval = setInterval(() => {
     // if (remainingTime === 0) {
@@ -141,7 +141,7 @@ function startGame() {
   }
   speedIncreaseInterval = setInterval(() => {
     increaseSpeedOfEnemies(2); // Aumenta la velocidad por 2x
-  }, 10000); // 30 sec
+  }, 20000); 
 
   disableScroll()
 }
@@ -403,7 +403,7 @@ function gameOver() {
   gameScreenNode.style.display = "none"
   gameOverScreenNode.style.display = "flex"
 
-  resultContainer.innerText = `You have scored ${score} points and you have lost ${3 - health} lives!`
+  resultContainer.innerText = `You have scored ${score} points!`
   endTimeContainer.innerText = `You have survived for ${finalTime} seconds`
 
   
@@ -577,7 +577,7 @@ window.addEventListener("keyup", (event) => {
 requestAnimationFrame(moveMago); // Llamar a esta función de nuevo en el siguiente frame
 }
 
-// Iniciar la animación del movimiento
+// Iniciar la animación de la rotacion del mago
 moveMago()
 
 //* EVENT LISTENERS

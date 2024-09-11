@@ -18,6 +18,7 @@ body {
   font-style: normal;
   font-size: 80px;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .container {
@@ -38,7 +39,7 @@ body {
   margin-top: 10px;
 }
 
-#start-screen img {
+.img-logo {
   margin: 30px 0;
   animation: rotate 8s ease-in-out 1;
 }
@@ -52,6 +53,7 @@ body {
   width: 90%;
   max-width: 1000px;
   margin-top: 20px;
+  text-align: center;
 }
 
 .instruction-card {
@@ -63,7 +65,8 @@ body {
   width: 100%;
   max-width: 300px;
   box-sizing: border-box;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.4s ease;
+  text-align: left;
 }
 
 .instruction-card:hover {
@@ -74,6 +77,7 @@ body {
 .instruction-card h2 {
   font-size: 1.5rem;
   margin-top: 0;
+  text-align: center;
 }
 
 .instruction-card ul {
@@ -85,6 +89,8 @@ body {
 .instruction-card ul li {
   margin: 10px 0;
   font-size: 1rem;
+  display: flex;
+  align-items: center; 
 }
 
 .instruction-card kbd {
@@ -102,6 +108,23 @@ body {
 .instruction-card p {
   font-size: 1rem;
   margin: 0;
+}
+
+
+.instruction-card img.character-image {
+  width: 30px;
+  height: auto;
+  margin-right: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.instruction-card span {
+  vertical-align: middle;
+}
+
+.survival {
+  text-align: center;
 }
 
 .myButton {
@@ -123,7 +146,7 @@ body {
   border: 3px solid rgba(0, 0, 0, 0.4);
   display: inline-block;
   margin-top: 40px; 
-  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease;
   text-align: center;
   background-color: rgb(0, 0, 0); 
 }
@@ -140,7 +163,7 @@ body {
 }
 
 .myButton:active {
-  background-color: rgba(255, 87, 34, 1); 
+  background-color: rgb(49, 9, 46); 
   transform: scale(0.95); 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); 
 }
@@ -205,82 +228,88 @@ body {
 }
 
 #final-title {
-  /* display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 30;
-  flex-direction: column; */
-
   min-height: 300px;
   display: flex;
   flex-direction: column;
-  background-color: #6e6a6a;
-  border: 3px solid #6d0a0a;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.85); 
+  border: 4px solid #3d0707; 
+  border-radius: 20px; 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); 
   justify-content: center;
   align-items: center;
   text-align: center;
-  transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+
   opacity: 1;
-  margin-bottom: 10px;
-  padding: 0px 20px 20px 20px;
+  margin-bottom: 20px; 
+  padding: 30px 20px; 
 }
 
 .title-game-over {
   font-family: "Game Over", sans-serif;
-  font-weight: 600;
-  font-size: 150px;
-  font-style: normal;
-  margin: 50px;
+  font-weight: 700; 
+  font-size: 100px; 
+  color: #ffcc00; 
+  margin: 20px 0;
+  text-shadow: 4px 4px 6px rgba(0, 0, 0, 0.5); 
+  letter-spacing: 5px; 
 }
 
 #final-title img {
-  margin: 20px;
-  width: 200px;
+  margin: 20px 0;
+  width: 150px; 
   height: auto;
+  filter: brightness(2) drop-shadow(0 0 20px rgba(255, 255, 255, 0.9));
 }
 
-#result {
-  padding: 20px;
+#result, #end-time {
+  font-size: 22px;
+  color: #fff;
+  margin-top: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .button-restart {
-  margin: 30px 0 50px 0;
-  padding: 10px;
-
-  color: rgb(255, 255, 255);
-  font-size: 20px;
-  line-height: 20px;
-  padding: 12px;
-  border-radius: 10px;
-  font-family: Georgia, serif;
-  font-weight: normal;
+  color: #fff;
+  font-size: 24px;
+  line-height: 1.5;
+  padding: 20px 40px; 
+  border-radius: 12px;
+  font-family: 'Georgia', serif;
+  font-weight: bold;
   text-decoration: none;
-  font-style: normal;
-  font-variant: normal;
-  text-transform: none;
   background-image: linear-gradient(
     to right,
-    #a41414 0%,
-    #ec3e1f 50%,
-    #e79e11 100%
-  );
-  box-shadow: 0px 8px 0px 0px #a41414be;
-
-  border-top: 2px solid #a41414be;
-  border-right: none;
-  border-bottom: none;
-  border-left: none;
-  border-image: initial;
+    rgba(224, 222, 221, 0.9) 0%,
+    rgba(224, 222, 221, 0.575) 50%,
+    rgba(224, 222, 221, 0.253) 100%
+  ); 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  border: 4px solid rgba(0, 0, 0, 0.4); 
   display: inline-block;
+  margin-top: 30px;
+  transition: transform 0.3s ease;
+  text-align: center;
+  background-color: rgb(0, 0, 0);
 }
+
 .button-restart:hover {
-  background: #a414148a;
+  background-image: linear-gradient(
+    to right,
+    rgba(235, 56, 160, 0.37) 0%,
+    rgba(235, 56, 160, 0.20) 50%,
+    rgba(235, 56, 160, 0.10) 100%
+  ); 
+  transform: scale(1.05); 
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.8); 
 }
+
 .button-restart:active {
-  background: #a4141459;
-  box-shadow: 0px 2px 0px 0px #a41414be;
+  background-color: rgba(49, 9, 46, 1); 
+  transform: scale(0.95); 
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6); 
 }
 
 #game-screen,

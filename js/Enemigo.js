@@ -4,7 +4,7 @@ class Enemigo {
     this.y = 0;
     this.w = 50;
     this.h = 60;
-    this.baseSpeed = 2
+    this.baseSpeed = 1
     this.speed = currentSpeedEnemigo
     this.detectado = false // variable para poder manejarlos individualmente
 
@@ -26,14 +26,15 @@ class Enemigo {
     this.node.style.top = `${this.y}px`;
     this.node.style.left = `${this.x}px`;
   }
-
+  
+  actualizarSpeed() {
+    this.speed = currentSpeedEnemigo
+  }
+  
   //movimiento del objeto en el eje y
   automaticMove() {
     this.y += this.speed
     this.node.style.top = `${this.y}px`;
   }
 
-  actualizarSpeed() {
-    this.speed = currentSpeedEnemigo
-  }
 }
