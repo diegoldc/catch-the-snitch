@@ -147,6 +147,7 @@ function startGame() {
     increaseSpeedOfEnemies(2); // Aumenta la velocidad por 2x
   }, 10000); // 30 sec
 
+  disableScroll()
 }
 
 function gameLoop() {
@@ -381,6 +382,8 @@ function gameOver() {
   audioGame.pause();
   audioGame.currentTime = 0
   
+  enableScroll()
+
   clearInterval(gameIntervalId)
   clearInterval(snitchIntervalId)
   clearInterval(enemigoDracoIntervalId)
@@ -518,6 +521,15 @@ function moveHechizos() {
       
   // }
 
+  // Función para deshabilitar el scroll
+function disableScroll() {
+  document.body.style.overflow = 'hidden';
+}
+
+// Función para habilitar el scroll
+function enableScroll() {
+  document.body.style.overflow = 'auto';
+}
 
 
 //* EVENT LISTENERS
