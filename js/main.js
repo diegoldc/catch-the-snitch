@@ -63,10 +63,8 @@ const audioGame = new Audio("https://diegoldc.github.io/catch-the-snitch/audio/a
 audioGame.loop = true;
 
 document.addEventListener("click", () => {
-  audioStart.play().catch((error) => {
-    console.log("Error al reproducir el audio inicial: ", error);
-  });
-}, { once: true });
+  audioStart.play()
+}, { once:true})
 
 
 // const audio = document.createElement("audio");
