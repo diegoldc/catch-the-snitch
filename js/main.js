@@ -23,7 +23,8 @@ const timerNode = document.querySelector("#timer")
 const resultContainer = document.querySelector("#result");
 const endTimeContainer = document.querySelector("#end-time")
 
-
+//mute
+const muteButton = document.querySelector("#mute-button")
 
 //* VARIABLES GLOBALES
 let magoObj = null
@@ -62,7 +63,7 @@ audioStart.loop = true
 document.addEventListener("click", () => {
   audioStart.play()
   audioStart.volume = 0.1
-}, { once:true})
+}, { once: true })
 
 const audioGame = new Audio("./audio/audio-magic.mp3")
 audioGame.loop = true
@@ -70,7 +71,8 @@ audioGame.loop = true
 const audioHechizo = new Audio("./audio/audio-hechizo.mp3")
 audioHechizo.loop = false
 
-
+//variable para controlar el mute
+let isMuted = false
 
 
 //* FUNCIONES // crear un audio para inicio y otro para game, con distintas variables y que cuando inicie start la otra pare
@@ -104,7 +106,7 @@ function startGame() {
   magoObj = new Mago()
   // snitchObj = new Snitch()
   // enemigoObj = new Enemigo()
-  
+
   // iniciar intervalos de juego
   gameIntervalId = setInterval(() => {
     gameLoop()
@@ -141,7 +143,7 @@ function startGame() {
   }
   speedIncreaseInterval = setInterval(() => {
     increaseSpeedOfEnemies(2); // Aumenta la velocidad por 2x
-  }, 20000); 
+  }, 20000);
 
   disableScroll()
 }
@@ -159,7 +161,7 @@ function gameLoop() {
     eachVoldemort.automaticMove()
   })
 
-  
+
   moveHechizos()
   detectarColisionHechizoEnemigo()
 
@@ -170,7 +172,7 @@ function gameLoop() {
   detectarSiEnemigoSalio()
   detectarSiSnitchSalio()
   detectarSiVoldemortSalio()
-  
+
 
 }
 
@@ -214,11 +216,19 @@ function detectarColisionMagoSnitch() {
       scoreNode.innerText = `Score: ${score}`
 
       // alerta cuando atrapes la snitch
-      let alertSnitch = document.createElement('p')
-      alertSnitch.innerText = "Ole!"
+      let alertSnitch = document.createElement('img')
+      alertSnitch.src = "../images/alerta-snitch.png"
+
 
       // posicionar la alerta
-      // alertSnitch.style.position etc.
+      alertSnitch.style.position = 'absolute';
+      alertSnitch.style.top = `${eachSnitch.y + eachSnitch.h / 2}px`;
+      alertSnitch.style.left = `${eachSnitch.x + eachSnitch.w / 2}px`;
+      alertSnitch.style.transform = 'translate(-50%, -50%)';
+      alertSnitch.style.zIndex = '1000'; // que esté por encima de otros elementos
+      alertSnitch.style.width = '80px'; 
+      alertSnitch.style.height = 'auto';
+      alertSnitch.style.opacity = '1'; // visible al inicio
 
       gameBoxNode.append(alertSnitch) // lo añadimos al nodo gamebox
 
@@ -265,7 +275,7 @@ function addEnemigoDraco() {
 
 function addVoldemort() {
 
-  
+
   const gameBoxHeight = gameBoxNode.offsetHeight - 40
   let newVoldemort = new Voldemort(0, "voldemort")
   let maxHeight = gameBoxHeight - newVoldemort.h
@@ -296,13 +306,13 @@ function detectarSiHechizoSalio() {
   if ((hechizoArray[0].x + hechizoArray[0].w) < 0) { // eliminar si se pasa de 450px height
     hechizoArray[0].node.remove()
     hechizoArray.shift()
-  } else if((hechizoArray[0].y + hechizoArray[0].h) > 450) { // eliminar si se pasa de 450px height
+  } else if ((hechizoArray[0].y + hechizoArray[0].h) > 450) { // eliminar si se pasa de 450px height
     hechizoArray[0].node.remove()
     hechizoArray.shift()
-  } else if((hechizoArray[0].y + hechizoArray[0].h) < 0) { 
+  } else if ((hechizoArray[0].y + hechizoArray[0].h) < 0) {
     hechizoArray[0].node.remove()
     hechizoArray.shift()
-  } else if((hechizoArray[0].x) > 700) { 
+  } else if ((hechizoArray[0].x) > 700) {
     hechizoArray[0].node.remove()
     hechizoArray.shift()
   }
@@ -329,18 +339,19 @@ function detectarColisionMagoEnemigo() {
       health--
       healthNode.innerText = `Health: ${health}`
 
-      if (health <= 0) {
-        finalTime = remainingTime
-        gameOver()
-        return
-      }
+      let alertEnemigo = document.createElement('img')
+      alertEnemigo.src = "../images/alerta-vida.png"
 
-      // alerta cuando atrapes la snitch
-      let alertEnemigo = document.createElement('p')
-      alertEnemigo.innerText = "Pillado!"
 
       // posicionar la alerta
-      // alertSnitch.style.position etc.
+      alertEnemigo.style.position = 'absolute';
+      alertEnemigo.style.top = '50%';
+      alertEnemigo.style.left = '50%';
+      alertEnemigo.style.transform = 'translate(-50%, -50%)';
+      alertEnemigo.style.zIndex = '1000';
+      alertEnemigo.style.width = '50px'; 
+      alertEnemigo.style.height = 'auto';
+      alertEnemigo.style.opacity = '1';
 
       gameBoxNode.append(alertEnemigo) // lo añadimos al nodo gamebox
 
@@ -349,6 +360,11 @@ function detectarColisionMagoEnemigo() {
         alertEnemigo.remove()
       }, 1000)
 
+      if (health <= 0) {
+        finalTime = remainingTime
+        gameOver()
+        return
+      }
 
       eachEnemigo.node.remove()
 
@@ -389,7 +405,7 @@ function detectarColisionMagoVoldemort() {
 function gameOver() {
   audioGame.pause();
   audioGame.currentTime = 0
-  
+
   enableScroll()
 
   clearInterval(gameIntervalId)
@@ -406,11 +422,11 @@ function gameOver() {
   resultContainer.innerText = `You have scored ${score} points!`
   endTimeContainer.innerText = `You have survived for ${finalTime} seconds`
 
-  
+
 }
 
 function restartGame() {
-  
+
   audioGame.play()
 
   gameScreenNode.style.display = "flex"
@@ -479,7 +495,7 @@ function addHechizo() {
     direction = "left"
   } else if (keysPressed["s"]) {
     direction = "down"
-  } 
+  }
 
   let newHechizo = new Hechizo(magoObj.x + magoObj.w / 2, magoObj.y, direction)
   if (direction === "up") {
@@ -494,7 +510,7 @@ function addHechizo() {
 
 
   hechizoArray.push(newHechizo)
-  
+
 
 }
 
@@ -516,6 +532,28 @@ function detectarColisionHechizoEnemigo() {
 
         score++; // Aumentar el score
         scoreNode.innerText = `Score: ${score}`
+
+        let alertHechizo = document.createElement('img')
+      alertHechizo.src = "../images/boom.png"
+
+
+      // posicionar la alerta
+      alertHechizo.style.position = 'absolute';
+      alertHechizo.style.top = `${eachenemigo.y + eachenemigo.h / 2}px`;
+      alertHechizo.style.left = `${eachenemigo.x + eachenemigo.w / 2}px`;
+      alertHechizo.style.transform = 'translate(-50%, -50%)';
+      alertHechizo.style.zIndex = '1000';
+      alertHechizo.style.width = '100px'; 
+      alertHechizo.style.height = 'auto';
+      alertHechizo.style.opacity = '1';
+
+      gameBoxNode.append(alertHechizo) // lo añadimos al nodo gamebox
+
+      // desaparece la alerta en 1 segundo
+      setTimeout(() => {
+        alertHechizo.remove()
+      }, 1000)
+
       }
     })
   })
@@ -524,7 +562,7 @@ function detectarColisionHechizoEnemigo() {
 function moveHechizos() {
   hechizoArray.forEach((eachHechizo, index) => {
     eachHechizo.move(); // Mover hechizo
-    
+
     if (eachHechizo.y + eachHechizo.h < 0) { // Si el hechizo sale de la pantalla
       eachHechizo.node.remove(); // Eliminarlo del DOM
       hechizoArray.splice(index, 1); // Eliminarlo del array
@@ -533,7 +571,7 @@ function moveHechizos() {
 }
 
 
-  // deshabilitar el scroll
+// deshabilitar el scroll
 function disableScroll() {
   document.body.style.overflow = 'hidden'
 }
@@ -545,42 +583,60 @@ function enableScroll() {
 
 function moveMago() {
   if (keysPressed["d"]) {
-    magoObj.playerMovement("right") 
+    magoObj.playerMovement("right")
     magoObj.node.style.transform = "scaleX(1)" // Girar el mago hacia la derecha
   }
 
   if (keysPressed["a"]) {
-    magoObj.playerMovement("left") 
-    magoObj.node.style.transform = "scaleX(-1)" 
+    magoObj.playerMovement("left")
+    magoObj.node.style.transform = "scaleX(-1)"
   }
 
   if (keysPressed["w"]) {
     magoObj.playerMovement("up")
-    magoObj.node.style.transform = "rotate(-45deg)"  
+    magoObj.node.style.transform = "rotate(-45deg)"
   }
 
   if (keysPressed["s"]) {
-    magoObj.playerMovement("down") 
-    magoObj.node.style.transform = "rotate(45deg)" 
+    magoObj.playerMovement("down")
+    magoObj.node.style.transform = "rotate(45deg)"
   }
 
-// está presionada una tecla
-window.addEventListener("keydown", (event) => {
-  keysPressed[event.key] = true
-});
+  // está presionada una tecla
+  window.addEventListener("keydown", (event) => {
+    keysPressed[event.key] = true
+  });
 
-// Detectar cuándo se suelta una tecla
-window.addEventListener("keyup", (event) => {
-  keysPressed[event.key] = false
-});
+  // Detectar cuándo se suelta una tecla
+  window.addEventListener("keyup", (event) => {
+    keysPressed[event.key] = false
+  });
 
-requestAnimationFrame(moveMago); // Llamar a esta función de nuevo en el siguiente frame
+  requestAnimationFrame(moveMago); // Llamar a esta función de nuevo en el siguiente frame
 }
 
 // Iniciar la animación de la rotacion del mago
 moveMago()
 
 //* EVENT LISTENERS
+
+muteButton.addEventListener('click', () => {
+  if (isMuted) {
+    audioStart.muted = false;
+    audioGame.muted = false;
+    audioHechizo.muted = false;
+    muteButton.src = '../images/unmute.png'; // Cambia la imagen a "unmuted"
+  } else {
+    // Si no está muteado, lo muteamos
+    audioStart.muted = true;
+    audioGame.muted = true;
+    audioHechizo.muted = true;
+    muteButton.src = '../images/mute.png'; // Cambia la imagen a "muted"
+  }
+  
+  // cambiamos el estado al clickar
+  isMuted = !isMuted;
+});
 
 startBtnNode.addEventListener("click", startGame)
 
