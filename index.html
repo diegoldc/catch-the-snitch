@@ -13,12 +13,42 @@
       <h1 class="title">Catch the snicth!</h1>
       <img src="./images/logo.png" width="200" alt="logo" />
       <div id="instructions">
-        <h3>Instructions</h3>
-        <ul>
-          <li>Press Arrow Left , Right, Down and Up</li>
-          <li>Catch max snitchs</li>
-          <li>Avoid enemies</li>
-        </ul>
+        <div class="instruction-card">
+          <h2>Controls</h2>
+          <ul>
+            <li>
+              <strong>Move:</strong> Use <kbd>W</kbd>, <kbd>A</kbd>,
+              <kbd>S</kbd>, <kbd>D</kbd> to move.
+            </li>
+            <li>
+              <strong>Cast Spell:</strong> Click the left mouse button to cast a
+              spell.
+            </li>
+          </ul>
+        </div>
+        <div class="instruction-card">
+          <h2>Objectives</h2>
+          <ul>
+            <li>
+              <strong>Score Points:</strong>
+              <ul>
+                <li>Catch the Snitch to earn 1 point.</li>
+                <li>Hit an enemy with a spell to earn 1 point.</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Lose Lives:</strong>
+              <ul>
+                <li>Draco and Snape will reduce your health by 1.</li>
+                <li>Getting caught by Voldemort ends your game.</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="instruction-card">
+          <h2>Survival</h2>
+          <p><strong>Hold on as long as you can!</strong></p>
+        </div>
       </div>
       <button class="myButton">Press to play!</button>
     </div>
@@ -27,7 +57,12 @@
     <div id="game-screen" class="container">
       <!-- Elementos del juego como puntuación, vidas, etc deberia ir aqui (dentro del game-screen pero fuera del game-box) -->
       <div id="game-cabecera">
-        <img src="./images/pruebaVol.png" width="200px" alt="imagen-voldemort" id="img-vol">
+        <img
+          src="./images/pruebaVol.png"
+          width="200px"
+          alt="imagen-voldemort"
+          id="img-vol"
+        />
         <div id="score">
           <div>Score: 0</div>
         </div>
