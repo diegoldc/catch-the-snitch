@@ -29,7 +29,7 @@ class Mago {
       } else {
         this.x += this.speed;
       }
-      this.node.style.left = `${this.x}px`;
+      this.node.style.left = `${this.x}px`
     } else if (direction === "left") {
       // ajustar a 0 si la siguiente posición es menor a 0
       if (this.x - this.speed < 0) {
@@ -37,7 +37,7 @@ class Mago {
       } else {
         this.x -= this.speed;
       }
-      this.node.style.left = `${this.x}px`;
+      this.node.style.left = `${this.x}px`
     } else if (direction === "down") {
 
       if (this.y + this.h + this.speed > gameBoxHeight) {
@@ -45,7 +45,7 @@ class Mago {
       } else {
         this.y += this.speed;
       }
-      this.node.style.top = `${this.y}px`;
+      this.node.style.top = `${this.y}px`
     } else if (direction === "up") {
 
       if (this.y - this.speed < 0) {
@@ -53,7 +53,7 @@ class Mago {
       } else {
         this.y -= this.speed;
       }
-      this.node.style.top = `${this.y}px`;
+      this.node.style.top = `${this.y}px`
     }
   }
 }

@@ -1,18 +1,16 @@
-
-class Hechizo {
+class Flame {
 
   constructor(positionX, positionY, direction) {
     this.x = positionX;
     this.y = positionY;
-    this.w = 40;
-    this.h = 35;
-
+    this.w = 60;
+    this.h = 55;
 
     this.speed = 10;
     this.direction = direction;
 
     this.node = document.createElement('img')
-    this.node.src = "./images/hechizo.png"
+    this.node.src = "./images/blue-flame.png"
 
     this.node.style.width = `${this.w}px`;
     this.node.style.height = `${this.h}px`;
