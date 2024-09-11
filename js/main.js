@@ -67,7 +67,7 @@ document.addEventListener("click", () => {
 const audioGame = new Audio("./audio/audio-magic.mp3")
 audioGame.loop = true
 
-const audioHechizo = new Audio("./audio/audio-hechizo")
+const audioHechizo = new Audio("./audio/audio-hechizo.mp3")
 audioHechizo.loop = false
 
 
@@ -469,6 +469,9 @@ function increaseSpeedOfEnemies(multiplier) {
 
 function addHechizo() {
 
+  audioHechizo.play()
+  audioHechizo.volume = 0.2
+
   let direction = "up"; // Por defecto, hacia arriba
   if (keysPressed["d"]) {
     direction = "right"
@@ -481,13 +484,14 @@ function addHechizo() {
   let newHechizo = new Hechizo(magoObj.x + magoObj.w / 2, magoObj.y, direction)
   if (direction === "up") {
     newHechizo.node.style.transform = "rotate(-70deg)"
-  } else if (direction === "rigth") {
+  } else if (direction === "right") {
     newHechizo.node.style.transform = "scaleX(1)"
   } else if (direction === "left") {
     newHechizo.node.style.transform = "scaleX(-1)"
   } else if (direction === "down") {
     newHechizo.node.style.transform = "rotate(70deg)"
   }
+
 
   hechizoArray.push(newHechizo)
   
@@ -580,7 +584,7 @@ moveMago()
 
 startBtnNode.addEventListener("click", startGame)
 
-window.addEventListener("click", () => {
+gameBoxNode.addEventListener("click", () => {
   addHechizo()
 })
 
