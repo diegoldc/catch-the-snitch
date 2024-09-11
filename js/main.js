@@ -62,9 +62,11 @@ audioStart.loop = true;
 const audioGame = new Audio("https://diegoldc.github.io/catch-the-snitch/audio/audio-magic.mp3");
 audioGame.loop = true;
 
-
-  audioStart.play()
-
+document.addEventListener("click", () => {
+  audioStart.play().catch((error) => {
+    console.log("Error al reproducir el audio inicial: ", error);
+  });
+}, { once: true });
 
 
 // const audio = document.createElement("audio");
