@@ -56,10 +56,10 @@ let speedIncreaseInterval = null
 let baseSpeed = 2; // Velocidad inicial
 let currentSpeedEnemigo = baseSpeed; // Esta será la velocidad que se multiplica
 
-const audioStart = new Audio("https://diegoldc.github.io/catch-the-snitch/audio/audio-prueba.mp3");
+const audioStart = new Audio("../audio/audio-prueba.mp3");
 audioStart.loop = true;
 
-const audioGame = new Audio("https://diegoldc.github.io/catch-the-snitch/audio/audio-magic.mp3");
+const audioGame = new Audio("../audio/audio-magic.mp3");
 audioGame.loop = true;
 
 document.addEventListener("click", () => {
