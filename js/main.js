@@ -71,16 +71,6 @@ let keysPressed = {} // Objeto para almacenar las teclas presionadas
 
 let playerName = ""
 
-// let newStorage = [{
-//   name: "Diego",
-//   score: 0,
-//   time: 0
-// }]
-
-
-// localStorage.setItem("list", JSON.stringify(newStorage))
-// let storageLst = JSON.parse(localStorage.getItem("list"))
-
 
 const audioStart = new Audio("./audio/audio-prueba.mp3")
 audioStart.loop = true
@@ -119,7 +109,7 @@ function startGame() {
 
   audioStart.pause()
   audioGame.play()
-  audioGame.volume = 0.5
+  audioGame.volume = 0.4
 
   score = 0
   scoreNode.innerText = `Score: ${score}`
@@ -151,6 +141,7 @@ function startGame() {
     gameLoop()
   }, Math.round(1000 / 60))
 
+  
   snitchIntervalId = setInterval(() => { //intervalo para añadir snitch
     addSnitch()
   }, 4000)
@@ -178,12 +169,13 @@ function startGame() {
     timerNode.innerText = `${minutes}:${seconds}`
   }, 1000)
 
+  //incrementar velocidad de enemigos
   if (speedIncreaseInterval) {
     clearInterval(speedIncreaseInterval);
   }
   speedIncreaseInterval = setInterval(() => {
-    increaseSpeedOfEnemies(2); // Aumenta la velocidad por 2x
-  }, 20000);
+    increaseSpeedOfEnemies(2); 
+  }, 20000); //vel x2
 
   disableScroll()
 }
@@ -257,7 +249,7 @@ function detectarColisionMagoSnitch() {
       magoObj.y <= (eachSnitch.y + eachSnitch.h)
     ) {
 
-      audioSnitch.volume = 0.5
+      audioSnitch.volume = 0.3
       audioSnitch.play()
 
       score++ // aumentamos score en 1
@@ -399,7 +391,7 @@ function detectarColisionMagoEnemigo() {
     ) {
       eachEnemigo.detectado = true
 
-      audioDamage.volume = 0.3
+      audioDamage.volume = 0.2
       audioDamage.play()
 
       // si choca con snape o draco restamos una vida, luego comprobamos si health = 0 -> gameOver
@@ -488,7 +480,7 @@ function detectarColisionMagoBludger() {
     if (!isBludgerColision) {
       isBludgerColision = true // con esta variable controlamos si ha habido colision, cuando toca pasa a true y si no toca lo pasamos a false, de eso depende que se cumpla o no la condicion. Si no trabajamos con este booleano me detecta multiples colisiones a la vez
 
-      audioDamage.volume = 0.3
+      audioDamage.volume = 0.2
       audioDamage.play()
 
       health--
@@ -506,27 +498,6 @@ function detectarColisionMagoBludger() {
         gameOver()
         return
       }
-
-      // let alertBludger = document.createElement('img')
-      // alertBludger.src = "./images/alerta-vida.png"
-
-
-      // // posicionar la alerta
-      // alertBludger.style.position = 'absolute';
-      // alertBludger.style.top = `${magoObj.y + magoObj.h / 2}px`
-      // alertBludger.style.left = `${magoObj.x + magoObj.w / 2}px`
-      // alertBludger.style.transform = 'translate(-50%, -50%)';
-      // alertBludger.style.zIndex = '1000';
-      // alertBludger.style.width = '30px';
-      // alertBludger.style.height = 'auto';
-      // alertBludger.style.opacity = '1';
-
-      // gameBoxNode.append(alertBludger) // lo añadimos al nodo gamebox
-
-      // // desaparece la alerta en 1 segundo
-      // setTimeout(() => {
-      //   alertBludger.remove()
-      // }, 1000)
 
     }
 
@@ -569,6 +540,7 @@ function gameOver() {
 
   let currentScores = JSON.parse(localStorage.getItem("list")) /// traerlo del localStorage
   //console.log(currentScores)
+  //lo devuelve como un array de objetos, cambio la variable newScor para que sea un objeto
 
   if (!currentScores) {
     currentScores = []
@@ -586,10 +558,10 @@ function gameOver() {
   //slice en array para quedarnos con los 5 más altos
   let scoresToDisplay = currentScores.slice(0,5)
 
-  localStorage.setItem("list", JSON.stringify(scoresToDisplay)) //guardar en store el array con los 5
+  localStorage.setItem("list", JSON.stringify(scoresToDisplay)) //guardar en storage el array con los 5
 
   let elements = document.getElementById("storage")
-  elements.innerHTML = null
+  elements.innerHTML = null // lo limpiamos
 
   //forEach para recorrer el array y añadirlos a la pantalla uno a uno
   scoresToDisplay.forEach((scoreObj) => {
@@ -669,7 +641,7 @@ function increaseSpeedOfEnemies(multiplier) {
 function addHechizo() {
 
   audioHechizo.play()
-  audioHechizo.volume = 0.2
+  audioHechizo.volume = 0.1
 
   let direction = "up"; // Por defecto, hacia arriba
   if (keysPressed["d"]) {
@@ -699,9 +671,9 @@ function addHechizo() {
 
 function addFlame() {
   audioHechizo.play()
-  audioHechizo.volume = 0.2
+  audioHechizo.volume = 0.1
 
-  let direction = "up"; // Por defecto, hacia arriba
+  let direction = "up"; // hacia arriba por defecto
   if (keysPressed["d"]) {
     direction = "right"
   } else if (keysPressed["a"]) {
@@ -891,7 +863,7 @@ muteButton.addEventListener('click', () => {
     // audioStart.play()
     muteButton.src = './images/unmute.png'
   } else {
-    // Si no está muteado, lo muteamos
+    
     audioStart.muted = true
     audioGame.muted = true
     audioHechizo.muted = true
