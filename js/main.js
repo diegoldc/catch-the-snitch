@@ -148,15 +148,15 @@ function startGame() {
 
   enemigoSnapeIntervalId = setInterval(() => { // intervalo para añadir enemigo
     addEnemigoSnape()
-  }, 3000)
+  }, 4000)
 
   enemigoDracoIntervalId = setInterval(() => { // intervalo para añadir enemigo
     addEnemigoDraco()
-  }, 4500)
+  }, 5500)
 
   enemigoVoldemortIntervalId = setInterval(() => { // intervalo para añadir enemigo
     addVoldemort()
-  }, 7000)
+  }, 7500)
 
 
   timerInterval = setInterval(() => {
@@ -174,8 +174,8 @@ function startGame() {
     clearInterval(speedIncreaseInterval);
   }
   speedIncreaseInterval = setInterval(() => {
-    increaseSpeedOfEnemies(2); 
-  }, 20000); //vel x2
+    increaseSpeedOfEnemies(1.5); //vel x1.5
+  }, 15000); 
 
   disableScroll()
 }
@@ -641,7 +641,7 @@ function increaseSpeedOfEnemies(multiplier) {
 function addHechizo() {
 
   audioHechizo.play()
-  audioHechizo.volume = 0.1
+  audioHechizo.volume = 0.2
 
   let direction = "up"; // Por defecto, hacia arriba
   if (keysPressed["d"]) {
@@ -671,7 +671,7 @@ function addHechizo() {
 
 function addFlame() {
   audioHechizo.play()
-  audioHechizo.volume = 0.1
+  audioHechizo.volume = 0.2
 
   let direction = "up"; // hacia arriba por defecto
   if (keysPressed["d"]) {
