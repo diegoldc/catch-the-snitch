@@ -45,6 +45,7 @@ let enemigoVoldemortIntervalId = null
 
 let bludgerObj = null
 let bludgerIntervalId = null
+let isBludgerColision = false
 
 let score = 0
 let health = 3
@@ -190,6 +191,8 @@ function gameLoop() {
   detectarColisionMagoSnitch()
   detectarColisionMagoVoldemort()
   detectarColisionFlameVoldemort()
+  detectarColisionMagoBludger()
+
   detectarSiHechizoSalio()
   detectarSiFlameSalio()
   detectarSiEnemigoSalio()
@@ -262,7 +265,7 @@ function detectarColisionMagoSnitch() {
       setTimeout(() => {
         alertSnitch.remove()
       }, 1000)
-      
+
 
       eachSnitch.node.remove()
 
@@ -447,6 +450,57 @@ function detectarColisionMagoVoldemort() {
   })
 }
 
+function detectarColisionMagoBludger() {
+  if (
+    (magoObj.y + magoObj.h) >= bludgerObj.y &&
+    (magoObj.x + magoObj.w) >= bludgerObj.x &&
+    magoObj.x <= (bludgerObj.x + bludgerObj.w) &&
+    magoObj.y <= (bludgerObj.y + bludgerObj.h)
+  ) {
+
+    if (!isBludgerColision) {
+      isBludgerColision = true // con esta variable controlamos si ha habido colision, cuando toca pasa a true y si no toca lo pasamos a false, de eso depende que se cumpla o no la condicion. Si no trabajamos con este booleano me detecta multiples colisiones a la vez
+
+      audioDamage.volume = 0.3
+      audioDamage.play()
+
+      health--
+      healthNode.innerText = `Health: ${health}`
+
+      if (health <= 0) {
+        finalTime = remainingTime
+        gameOver()
+        return
+      }
+
+      let alertBludger = document.createElement('img')
+      alertBludger.src = "./images/alerta-vida.png"
+
+
+      // posicionar la alerta
+      alertBludger.style.position = 'absolute';
+      alertBludger.style.top = `${magoObj.y + magoObj.h / 2}px`
+      alertBludger.style.left = `${magoObj.x + magoObj.w / 2}px`
+      alertBludger.style.transform = 'translate(-50%, -50%)';
+      alertBludger.style.zIndex = '1000';
+      alertBludger.style.width = '30px';
+      alertBludger.style.height = 'auto';
+      alertBludger.style.opacity = '1';
+
+      gameBoxNode.append(alertBludger) // lo añadimos al nodo gamebox
+
+      // desaparece la alerta en 1 segundo
+      setTimeout(() => {
+        alertBludger.remove()
+      }, 1000)
+
+    }
+
+  } else {
+    isBludgerColision = false
+  }
+}
+
 function gameOver() {
   audioGame.pause();
   audioGame.currentTime = 0
@@ -497,6 +551,12 @@ function restartGame() {
 
   // eliminar mago anterior
   magoObj.node.remove()
+
+  //eliminar la bludger
+  if (bludgerIntervalId) {
+    clearInterval(bludgerIntervalId);
+  }
+  bludgerObj.node.remove()
 
   //eliminar todos los enemigos
   enemigoArray.forEach((eachEnemigo) => {
@@ -740,7 +800,7 @@ function moveBludger() {
   bludgerIntervalId = setInterval(() => {
     bludgerObj.chase(magoObj)
   }, 50)
-  
+
 }
 
 //* EVENT LISTENERS

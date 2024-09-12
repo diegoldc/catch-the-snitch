@@ -1,8 +1,8 @@
 class Bludger {
 
   constructor() {
-    this.x = 30
-    this.y = 30
+    this.x = gameBoxNode.offsetWidth
+    this.y = 0
     this.h = 25
     this.w = 25
     this.speed = 4
