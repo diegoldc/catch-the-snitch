@@ -149,7 +149,7 @@ function startGame() {
 
   snitchIntervalId = setInterval(() => { //intervalo para añadir snitch
     addSnitch()
-  }, 1500)
+  }, 4000)
 
   enemigoSnapeIntervalId = setInterval(() => { // intervalo para añadir enemigo
     addEnemigoSnape()
@@ -540,20 +540,42 @@ function gameOver() {
   endTimeContainer.innerText = `You have survived for ${finalTime} seconds`
 
   
-  let newStorage = [{
+
+  //MANEJO DE LOCAL STORAGE
+  let newScore = {
     name: playerName,
     score: score,
     time: finalTime
-  }]
-  
-  localStorage.setItem("list", JSON.stringify(newStorage))
-  let storageLst = JSON.parse(localStorage.getItem("list"))
-  
+  }
 
-  storageLst.forEach((element) => {
-    let elements = document.getElementById("storage")
+  let currentScores = JSON.parse(localStorage.getItem("list")) /// traerlo del localStorage
+  //console.log(currentScores)
+
+  if (!currentScores) {
+    currentScores = []
+    currentScores.push(newScore)
+  } else {
+    currentScores.push(newScore)
+  }
+  //console.log(currentScores)
+
+  //sort para ordenar de mayor a menor score
+  currentScores.sort((score1, score2) => {
+    return score2.score - score1.score
+  })
+
+  //slice en array para quedarnos con los 5 más altos
+  let scoresToDisplay = currentScores.slice(0,5)
+
+  localStorage.setItem("list", JSON.stringify(scoresToDisplay)) //guardar en store el array con los 5
+
+  let elements = document.getElementById("storage")
+  elements.innerHTML = null
+
+  //forEach para recorrer el array y añadirlos a la pantalla uno a uno
+  scoresToDisplay.forEach((scoreObj) => {
     let storageNode = document.createElement("div")
-    storageNode.innerText = `${element.name} - Score: ${element.score} - Time: ${element.time}`
+    storageNode.innerText = `${scoreObj.name} - Score: ${scoreObj.score} - Time: ${scoreObj.time} sec`
     elements.appendChild(storageNode) 
   })
 }
@@ -830,7 +852,7 @@ function moveMago() {
 function moveBludger() {
   bludgerIntervalId = setInterval(() => {
     bludgerObj.chase(magoObj)
-  }, 50)
+  }, 50) //cada 5 milisegundos ejecuta el metodo chase() que mueve el bludger hacia el jugador
 
 }
 
@@ -874,7 +896,7 @@ startBtnNode.addEventListener("click", () => {
 
 window.addEventListener("keydown", (event) => {
   if (gameScreenNode.style.display === "flex") {
-    if (event.key === "i") {
+    if (event.key === "u") {
       addHechizo();
     } else if (event.key === "p") {
       addFlame();

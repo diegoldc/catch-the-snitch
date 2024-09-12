@@ -42,9 +42,5 @@ class Bludger {
     this.node.style.left = `${this.x}px`
   }
 
-  // move() {
-  //   this.node.style.top = `${this.y}px`
-  //   this.node.style.left = `${this.x}px`
-  // }
 
 }
