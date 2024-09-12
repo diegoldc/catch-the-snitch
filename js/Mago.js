@@ -19,8 +19,8 @@ class Mago {
   }
 
   playerMovement(direction) {
-    const gameBoxWidth = gameBoxNode.offsetWidth - 40 // Ancho del game-box en el CSS
-    const gameBoxHeight = gameBoxNode.offsetHeight - 40 // Altura del game-box en el CSS
+    const gameBoxWidth = gameBoxNode.offsetWidth - 40 // 20px de border a cada lado
+    const gameBoxHeight = gameBoxNode.offsetHeight - 40 
 
     if (direction === "right") {
 
@@ -41,7 +41,7 @@ class Mago {
     } else if (direction === "down") {
 
       if (this.y + this.h + this.speed > gameBoxHeight) {
-        this.y = gameBoxHeight - this.h; // Ajustamos al borde inferior del game-box
+        this.y = gameBoxHeight - this.h
       } else {
         this.y += this.speed;
       }

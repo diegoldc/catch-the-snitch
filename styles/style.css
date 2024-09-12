@@ -28,14 +28,11 @@ body {
   align-items: center;
   margin: 50px;
   position: relative;
-  /* width: 100%;
-  height: 100%; */
   overflow: hidden;
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
 
 #start-screen.container {
-  /* background-color: #8b72aa; */
   padding: 10px;
   margin-top: 10px;
   margin-bottom: 20px;
@@ -132,10 +129,6 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.instruction-card span {
-  vertical-align: middle;
-}
-
 .survival {
   text-align: center;
 }
@@ -217,7 +210,6 @@ input, select, textarea {
   width: 120px;
   text-align: center;
   height: auto;
-  /* align-items: center; */
   color: white;
   font-size: 25px;
 }
@@ -254,7 +246,6 @@ input, select, textarea {
   height: 50vh; /* 50% del alto de la ventana */
   max-width: 700px;
   max-height: 450px;
-  /*margin-bottom: 130px;*/
 
   position: relative; /* permite posicionar los elementos de forma absoluta dentro del game-box */
   overflow: hidden; /* previene que los elementos salgan visualmente del game-box */
@@ -264,13 +255,11 @@ input, select, textarea {
 
   background-position: center;
   background-size: cover;
-  background-repeat: no-repeat;
 
-  border-width: 20px; /* Ancho del borde */
+  border-width: 20px; 
   border-style: solid;
   border-image: url("../images/borde.png") 30 round;
 
-  /* border: 3px solid rgb(0, 0, 0);  */
 }
 
 #final-title {
@@ -284,8 +273,6 @@ input, select, textarea {
   justify-content: center;
   align-items: center;
   text-align: center;
-
-  opacity: 1;
   margin-bottom: 20px; 
   padding: 30px 20px; 
 }
@@ -329,7 +316,6 @@ input, select, textarea {
   align-items: center;
   text-align: center;
   color: #fff;
-  opacity: 1;
   margin-bottom: 10px; 
   margin-top: 0;
   padding: 0 20px 20px 20px; 
@@ -394,8 +380,6 @@ input, select, textarea {
 #game-screen,
 #game-over-screen {
   display: none;
-  /* background-color: #f3d3cf;
-  border: 3px solid rgb(51, 20, 20); */
 }
 
 #game-over-screen {

@@ -64,8 +64,8 @@ let finalTime
 
 let speedIncreaseInterval = null
 
-let baseSpeed = 1 // Velocidad inicial
-let currentSpeedEnemigo = baseSpeed // Esta será la velocidad que se multiplica
+let baseSpeed = 1 
+let currentSpeedEnemigo = baseSpeed //velocidad que se multiplica
 
 let keysPressed = {} // Objeto para almacenar las teclas presionadas
 
@@ -160,9 +160,6 @@ function startGame() {
 
 
   timerInterval = setInterval(() => {
-    // if (remainingTime === 0) {
-    //   gameOver()
-    // }
     remainingTime++
     minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
     seconds = (remainingTime % 60).toString().padStart(2, "0");
@@ -211,6 +208,45 @@ function gameLoop() {
   detectarSiVoldemortSalio()
 
 
+}
+
+function moveMago() {
+  // tecla presionada
+  window.addEventListener("keydown", (event) => {
+    keysPressed[event.key] = true
+    //console.log(keysPressed)
+  });
+
+  // Se suelta la tecla
+  window.addEventListener("keyup", (event) => {
+    keysPressed[event.key] = false
+  });
+
+  if (keysPressed["d"]) {
+    magoObj.playerMovement("right")
+    magoObj.node.style.transform = "scaleX(1)" // Girar el mago hacia la derecha
+  }
+
+  if (keysPressed["a"]) {
+    magoObj.playerMovement("left")
+    magoObj.node.style.transform = "scaleX(-1)"
+  }
+
+  if (keysPressed["w"]) {
+    magoObj.playerMovement("up")
+    magoObj.node.style.transform = "rotate(-45deg)"
+  }
+
+  if (keysPressed["s"]) {
+    magoObj.playerMovement("down")
+    magoObj.node.style.transform = "rotate(45deg)"
+  }
+}
+
+function moveBludger() {
+  bludgerIntervalId = setInterval(() => {
+    bludgerObj.chase(magoObj)
+  }, 50) //cada 5 milisegundos ejecuta el metodo chase() que mueve el bludger hacia el jugador
 }
 
 function addSnitch() {
@@ -342,6 +378,44 @@ function detectarSiVoldemortSalio() {
   }
 }
 
+function addHechizo() {
+
+  audioHechizo.play()
+  audioHechizo.volume = 0.2
+
+  let direction = "up"; // Por defecto, hacia arriba
+  if (keysPressed["d"]) {
+    direction = "right"
+  } else if (keysPressed["a"]) {
+    direction = "left"
+  } else if (keysPressed["s"]) {
+    direction = "down"
+  }
+
+  let newHechizo = new Hechizo(magoObj.x + magoObj.w / 2, magoObj.y, direction)
+  if (direction === "up") {
+    newHechizo.node.style.transform = "rotate(-70deg)"
+  } else if (direction === "right") {
+    newHechizo.node.style.transform = "scaleX(1)"
+  } else if (direction === "left") {
+    newHechizo.node.style.transform = "scaleX(-1)"
+  } else if (direction === "down") {
+    newHechizo.node.style.transform = "rotate(70deg)"
+  }
+
+
+  hechizoArray.push(newHechizo)
+
+
+}
+
+function moveHechizos() {
+  hechizoArray.forEach((eachHechizo) => {
+    eachHechizo.move(); // Mover hechizo
+
+  })
+}
+
 function detectarSiHechizoSalio() {
   if ((hechizoArray[0].x + hechizoArray[0].w) < 0) { // eliminar si se pasa de 450px height
     hechizoArray[0].node.remove()
@@ -356,6 +430,40 @@ function detectarSiHechizoSalio() {
     hechizoArray[0].node.remove()
     hechizoArray.shift()
   }
+}
+
+function addFlame() {
+  audioHechizo.play()
+  audioHechizo.volume = 0.2
+
+  let direction = "up"; // hacia arriba por defecto
+  if (keysPressed["d"]) {
+    direction = "right"
+  } else if (keysPressed["a"]) {
+    direction = "left"
+  } else if (keysPressed["s"]) {
+    direction = "down"
+  }
+
+  let newFlame = new Flame(magoObj.x + magoObj.w / 2, magoObj.y, direction)
+  if (direction === "up") {
+    newFlame.node.style.transform = "rotate(-75deg)"
+  } else if (direction === "right") {
+    newFlame.node.style.transform = "scaleX(1)"
+  } else if (direction === "left") {
+    newFlame.node.style.transform = "scaleX(-1)"
+  } else if (direction === "down") {
+    newFlame.node.style.transform = "rotate(75deg)"
+  }
+
+
+  flameArray.push(newFlame)
+}
+
+function moveFlame() {
+  flameArray.forEach((eachFlame) => {
+    eachFlame.move(); // Mover hechizo
+  })
 }
 
 function detectarSiFlameSalio() {
@@ -525,6 +633,104 @@ function detectarColisionMagoBludger() {
   }
 }
 
+function detectarColisionHechizoEnemigo() {
+  hechizoArray.forEach((eachHechizo, hechizoIndex) => {
+    enemigoArray.forEach((eachenemigo, enemigoIndex) => {
+      if (
+        eachHechizo.x < eachenemigo.x + eachenemigo.w &&
+        eachHechizo.x + eachHechizo.w > eachenemigo.x &&
+        eachHechizo.y < eachenemigo.y + eachenemigo.h &&
+        eachHechizo.y + eachHechizo.h > eachenemigo.y
+      ) {
+        // Eliminar el enemigo y el hechizo si colisionan
+        eachHechizo.node.remove()
+        eachenemigo.node.remove()
+
+        hechizoArray.splice(hechizoIndex, 1)
+        enemigoArray.splice(enemigoIndex, 1)
+
+        score++; // Aumentar el score
+        scoreNode.innerText = `Score: ${score}`
+
+        let alertHechizo = document.createElement('img')
+        alertHechizo.src = "./images/boom.png"
+
+
+        // posicionar la alerta
+        alertHechizo.style.position = 'absolute'
+        alertHechizo.style.top = `${eachenemigo.y + eachenemigo.h / 2}px`
+        alertHechizo.style.left = `${eachenemigo.x + eachenemigo.w / 2}px`
+        alertHechizo.style.transform = 'translate(-50%, -50%)'
+        alertHechizo.style.zIndex = '1000'
+        alertHechizo.style.width = '100px'
+        alertHechizo.style.height = 'auto'
+        alertHechizo.style.opacity = '1'
+
+        gameBoxNode.append(alertHechizo) // lo añadimos al nodo gamebox
+
+        // desaparece la alerta en 1 segundo
+        setTimeout(() => {
+          alertHechizo.remove()
+        }, 1000)
+
+      }
+    })
+  })
+}
+
+function detectarColisionFlameVoldemort() {
+  flameArray.forEach((eachFlame, flameIndex) => {
+    voldemortArray.forEach((eachVoldemort, voldemortIndex) => {
+      if (
+        eachFlame.x < eachVoldemort.x + eachVoldemort.w &&
+        eachFlame.x + eachFlame.w > eachVoldemort.x &&
+        eachFlame.y < eachVoldemort.y + eachVoldemort.h &&
+        eachFlame.y + eachFlame.h > eachVoldemort.y
+      ) {
+        // Eliminar el enemigo y el hechizo si colisionan
+        eachFlame.node.remove()
+        eachVoldemort.node.remove()
+
+        flameArray.splice(flameIndex, 1)
+        voldemortArray.splice(voldemortIndex, 1)
+
+        score += 5; // Aumentar el score
+        scoreNode.innerText = `Score: ${score}`
+
+        let alertFlame = document.createElement('img')
+        alertFlame.src = "./images/boom.png"
+
+
+        // posicionar la alerta
+        alertFlame.style.position = 'absolute';
+        alertFlame.style.top = `${eachVoldemort.y + eachVoldemort.h / 2}px`;
+        alertFlame.style.left = `${eachVoldemort.x + eachVoldemort.w / 2}px`;
+        alertFlame.style.transform = 'translate(-50%, -50%)';
+        alertFlame.style.zIndex = '1000';
+        alertFlame.style.width = '100px';
+        alertFlame.style.height = 'auto';
+        alertFlame.style.opacity = '1';
+
+        gameBoxNode.append(alertFlame) // lo añadimos al nodo gamebox
+
+        // desaparece la alerta en 1 segundo
+        setTimeout(() => {
+          alertFlame.remove()
+        }, 1000)
+
+      }
+    })
+  })
+}
+
+function increaseSpeedOfEnemies(multiplier) {
+  currentSpeedEnemigo *= multiplier
+
+  enemigoArray.forEach((eachEnemigo) => {
+    eachEnemigo.actualizarSpeed()
+  })
+}
+
 function gameOver() {
   audioGame.pause();
   audioGame.currentTime = 0
@@ -649,225 +855,15 @@ function restartGame() {
   startGame()
 }
 
-function increaseSpeedOfEnemies(multiplier) {
-  currentSpeedEnemigo *= multiplier
-
-  enemigoArray.forEach((eachEnemigo) => {
-    eachEnemigo.actualizarSpeed()
-  })
-}
-
-function addHechizo() {
-
-  audioHechizo.play()
-  audioHechizo.volume = 0.2
-
-  let direction = "up"; // Por defecto, hacia arriba
-  if (keysPressed["d"]) {
-    direction = "right"
-  } else if (keysPressed["a"]) {
-    direction = "left"
-  } else if (keysPressed["s"]) {
-    direction = "down"
-  }
-
-  let newHechizo = new Hechizo(magoObj.x + magoObj.w / 2, magoObj.y, direction)
-  if (direction === "up") {
-    newHechizo.node.style.transform = "rotate(-70deg)"
-  } else if (direction === "right") {
-    newHechizo.node.style.transform = "scaleX(1)"
-  } else if (direction === "left") {
-    newHechizo.node.style.transform = "scaleX(-1)"
-  } else if (direction === "down") {
-    newHechizo.node.style.transform = "rotate(70deg)"
-  }
-
-
-  hechizoArray.push(newHechizo)
-
-
-}
-
-function addFlame() {
-  audioHechizo.play()
-  audioHechizo.volume = 0.2
-
-  let direction = "up"; // hacia arriba por defecto
-  if (keysPressed["d"]) {
-    direction = "right"
-  } else if (keysPressed["a"]) {
-    direction = "left"
-  } else if (keysPressed["s"]) {
-    direction = "down"
-  }
-
-  let newFlame = new Flame(magoObj.x + magoObj.w / 2, magoObj.y, direction)
-  if (direction === "up") {
-    newFlame.node.style.transform = "rotate(-75deg)"
-  } else if (direction === "right") {
-    newFlame.node.style.transform = "scaleX(1)"
-  } else if (direction === "left") {
-    newFlame.node.style.transform = "scaleX(-1)"
-  } else if (direction === "down") {
-    newFlame.node.style.transform = "rotate(75deg)"
-  }
-
-
-  flameArray.push(newFlame)
-}
-
-function detectarColisionHechizoEnemigo() {
-  hechizoArray.forEach((eachHechizo, hechizoIndex) => {
-    enemigoArray.forEach((eachenemigo, enemigoIndex) => {
-      if (
-        eachHechizo.x < eachenemigo.x + eachenemigo.w &&
-        eachHechizo.x + eachHechizo.w > eachenemigo.x &&
-        eachHechizo.y < eachenemigo.y + eachenemigo.h &&
-        eachHechizo.y + eachHechizo.h > eachenemigo.y
-      ) {
-        // Eliminar el enemigo y el hechizo si colisionan
-        eachHechizo.node.remove()
-        eachenemigo.node.remove()
-
-        hechizoArray.splice(hechizoIndex, 1)
-        enemigoArray.splice(enemigoIndex, 1)
-
-        score++; // Aumentar el score
-        scoreNode.innerText = `Score: ${score}`
-
-        let alertHechizo = document.createElement('img')
-        alertHechizo.src = "./images/boom.png"
-
-
-        // posicionar la alerta
-        alertHechizo.style.position = 'absolute'
-        alertHechizo.style.top = `${eachenemigo.y + eachenemigo.h / 2}px`
-        alertHechizo.style.left = `${eachenemigo.x + eachenemigo.w / 2}px`
-        alertHechizo.style.transform = 'translate(-50%, -50%)'
-        alertHechizo.style.zIndex = '1000'
-        alertHechizo.style.width = '100px'
-        alertHechizo.style.height = 'auto'
-        alertHechizo.style.opacity = '1'
-
-        gameBoxNode.append(alertHechizo) // lo añadimos al nodo gamebox
-
-        // desaparece la alerta en 1 segundo
-        setTimeout(() => {
-          alertHechizo.remove()
-        }, 1000)
-
-      }
-    })
-  })
-}
-
-function detectarColisionFlameVoldemort() {
-  flameArray.forEach((eachFlame, flameIndex) => {
-    voldemortArray.forEach((eachVoldemort, voldemortIndex) => {
-      if (
-        eachFlame.x < eachVoldemort.x + eachVoldemort.w &&
-        eachFlame.x + eachFlame.w > eachVoldemort.x &&
-        eachFlame.y < eachVoldemort.y + eachVoldemort.h &&
-        eachFlame.y + eachFlame.h > eachVoldemort.y
-      ) {
-        // Eliminar el enemigo y el hechizo si colisionan
-        eachFlame.node.remove()
-        eachVoldemort.node.remove()
-
-        flameArray.splice(flameIndex, 1)
-        voldemortArray.splice(voldemortIndex, 1)
-
-        score += 5; // Aumentar el score
-        scoreNode.innerText = `Score: ${score}`
-
-        let alertFlame = document.createElement('img')
-        alertFlame.src = "./images/boom.png"
-
-
-        // posicionar la alerta
-        alertFlame.style.position = 'absolute';
-        alertFlame.style.top = `${eachVoldemort.y + eachVoldemort.h / 2}px`;
-        alertFlame.style.left = `${eachVoldemort.x + eachVoldemort.w / 2}px`;
-        alertFlame.style.transform = 'translate(-50%, -50%)';
-        alertFlame.style.zIndex = '1000';
-        alertFlame.style.width = '100px';
-        alertFlame.style.height = 'auto';
-        alertFlame.style.opacity = '1';
-
-        gameBoxNode.append(alertFlame) // lo añadimos al nodo gamebox
-
-        // desaparece la alerta en 1 segundo
-        setTimeout(() => {
-          alertFlame.remove()
-        }, 1000)
-
-      }
-    })
-  })
-}
-
-function moveHechizos() {
-  hechizoArray.forEach((eachHechizo) => {
-    eachHechizo.move(); // Mover hechizo
-
-  })
-}
-
-function moveFlame() {
-  flameArray.forEach((eachFlame) => {
-    eachFlame.move(); // Mover hechizo
-  })
-}
-
-
 // deshabilitar el scroll
 function disableScroll() {
   document.body.style.overflow = 'hidden'
 }
 
-
 function enableScroll() {
   document.body.style.overflow = 'auto'
 }
 
-function moveMago() {
-  // está presionada una tecla
-  window.addEventListener("keydown", (event) => {
-    keysPressed[event.key] = true
-  });
-
-  // Detectar cuándo se suelta una tecla
-  window.addEventListener("keyup", (event) => {
-    keysPressed[event.key] = false
-  });
-
-  if (keysPressed["d"]) {
-    magoObj.playerMovement("right")
-    magoObj.node.style.transform = "scaleX(1)" // Girar el mago hacia la derecha
-  }
-
-  if (keysPressed["a"]) {
-    magoObj.playerMovement("left")
-    magoObj.node.style.transform = "scaleX(-1)"
-  }
-
-  if (keysPressed["w"]) {
-    magoObj.playerMovement("up")
-    magoObj.node.style.transform = "rotate(-45deg)"
-  }
-
-  if (keysPressed["s"]) {
-    magoObj.playerMovement("down")
-    magoObj.node.style.transform = "rotate(45deg)"
-  }
-}
-
-function moveBludger() {
-  bludgerIntervalId = setInterval(() => {
-    bludgerObj.chase(magoObj)
-  }, 50) //cada 5 milisegundos ejecuta el metodo chase() que mueve el bludger hacia el jugador
-
-}
 
 //* EVENT LISTENERS
 
