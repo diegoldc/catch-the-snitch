@@ -243,7 +243,7 @@ function detectarColisionMagoSnitch() {
 
       // alerta cuando atrapes la snitch
       let alertSnitch = document.createElement('img')
-      alertSnitch.src = "../images/alerta-snitch.png"
+      alertSnitch.src = "./images/alerta-snitch.png"
 
 
       // posicionar la alerta
@@ -385,7 +385,7 @@ function detectarColisionMagoEnemigo() {
       healthNode.innerText = `Health: ${health}`
 
       let alertEnemigo = document.createElement('img')
-      alertEnemigo.src = "../images/alerta-vida.png"
+      alertEnemigo.src = "./images/alerta-vida.png"
 
 
       // posicionar la alerta
@@ -753,7 +753,7 @@ muteButton.addEventListener('click', () => {
     audioSnitch.muted = false
     audioGameOver.muted = false
     // audioStart.play()
-    muteButton.src = '../images/unmute.png'
+    muteButton.src = './images/unmute.png'
   } else {
     // Si no está muteado, lo muteamos
     audioStart.muted = true
@@ -761,7 +761,7 @@ muteButton.addEventListener('click', () => {
     audioHechizo.muted = true
     audioSnitch.muted = true
     audioGameOver.muted = true
-    muteButton.src = '../images/mute.png'
+    muteButton.src = './images/mute.png'
   }
 
   // cambiamos el estado al clickar
