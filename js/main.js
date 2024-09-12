@@ -26,6 +26,9 @@ const endTimeContainer = document.querySelector("#end-time")
 //mute
 const muteButton = document.querySelector("#mute-button")
 
+//player input
+const playerNameInputNode = document.querySelector("#playerNameInput");
+
 //* VARIABLES GLOBALES
 let magoObj = null
 // let snitchObj = null
@@ -61,6 +64,18 @@ let baseSpeed = 1 // Velocidad inicial
 let currentSpeedEnemigo = baseSpeed // Esta será la velocidad que se multiplica
 
 let keysPressed = {} // Objeto para almacenar las teclas presionadas
+
+let playerName = ""
+
+// let newStorage = [{
+//   name: "Diego",
+//   score: 0,
+//   time: 0
+// }]
+
+
+// localStorage.setItem("list", JSON.stringify(newStorage))
+// let storageLst = JSON.parse(localStorage.getItem("list"))
 
 
 const audioStart = new Audio("./audio/audio-prueba.mp3")
@@ -524,7 +539,23 @@ function gameOver() {
   resultContainer.innerText = `You have scored ${score} points!`
   endTimeContainer.innerText = `You have survived for ${finalTime} seconds`
 
+  
+  let newStorage = [{
+    name: playerName,
+    score: score,
+    time: finalTime
+  }]
+  
+  localStorage.setItem("list", JSON.stringify(newStorage))
+  let storageLst = JSON.parse(localStorage.getItem("list"))
+  
 
+  storageLst.forEach((element) => {
+    let elements = document.getElementById("storage")
+    let storageNode = document.createElement("div")
+    storageNode.innerText = `${element.name} - Score: ${element.score} - Time: ${element.time}`
+    elements.appendChild(storageNode) 
+  })
 }
 
 function restartGame() {
@@ -830,13 +861,22 @@ muteButton.addEventListener('click', () => {
   isMuted = !isMuted
 });
 
-startBtnNode.addEventListener("click", startGame)
+startBtnNode.addEventListener("click", () => {
+  playerName = playerNameInputNode.value
+
+  if(playerName === "") {
+    alert("Enter your name")
+    return
+  }
+
+  startGame()
+})
 
 window.addEventListener("keydown", (event) => {
   if (gameScreenNode.style.display === "flex") {
-    if (event.key === "4") {
+    if (event.key === "i") {
       addHechizo();
-    } else if (event.key === "6") {
+    } else if (event.key === "p") {
       addFlame();
     }
   }

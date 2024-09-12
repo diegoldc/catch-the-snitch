@@ -38,10 +38,11 @@ body {
   /* background-color: #8b72aa; */
   padding: 10px;
   margin-top: 10px;
+  margin-bottom: 35px;
 }
 
 .img-logo {
-  margin: 30px 0;
+  margin: 20px 0 20px 0;
   animation: rotate 8s ease-in-out 1;
 }
 
@@ -72,7 +73,7 @@ body {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   width: 100%;
-  max-width: 300px;
+  max-width: 320px;
   box-sizing: border-box;
   transition: transform 0.4s ease;
   text-align: left;
@@ -100,6 +101,7 @@ body {
   font-size: 1rem;
   display: flex;
   align-items: center; 
+  
 }
 
 .instruction-card kbd {

@@ -23,6 +23,7 @@
       <div id="instructions">
         <div class="instruction-card">
           <h2>Controls</h2>
+          <br>
           <ul>
             <li>
               <strong>Move: &nbsp;&nbsp;</strong> Use &nbsp; <kbd>W</kbd>,
@@ -31,10 +32,10 @@
             <br>
             <li>
               <strong>Attack: </strong>
-              &nbsp; Use &nbsp; <kbd>4</kbd>&nbsp; to cast a spell. 
+              &nbsp; Use &nbsp; <kbd>I</kbd>&nbsp; to cast a spell. 
             </li>
             <li>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Use &nbsp; <kbd>6</kbd> &nbsp; to
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Use &nbsp; <kbd>P</kbd> &nbsp; to
               attack Voldemort.
             </li>
           </ul>
@@ -69,6 +70,14 @@
                   />
                   <span>Getting caught by Lord Voldemort ends your game.</span>
                 </li>
+                <li>
+                  <img
+                    src="./images/bludger.png"
+                    alt="Bludger"
+                    class="character-image"
+                  />
+                  <span>The Bludger will reduce your health by 1 if it hits you.</span>
+                </li>
               </ul>
             </li>
           </ul>
@@ -93,6 +102,7 @@
           </p>
         </div>
       </div>
+      <input type="text" id="playerNameInput" placeholder="Enter your name" />
       <button class="myButton">Start Game</button>
     </div>
 
@@ -129,6 +139,9 @@
         <div id="result"></div>
         <div id="end-time"></div>
       </div>
+
+      <div id="storage"></div>
+
       <button id="restartButton" class="button-restart">Restart Game</button>
     </div>
 
