@@ -751,17 +751,19 @@ muteButton.addEventListener('click', () => {
     audioGame.muted = false
     audioHechizo.muted = false
     audioSnitch.muted = false
+    audioDamage.muted = false
     audioGameOver.muted = false
     // audioStart.play()
-    muteButton.src = './images/unmute.png'
+    muteButton.src = '../images/unmute.png'
   } else {
     // Si no está muteado, lo muteamos
     audioStart.muted = true
     audioGame.muted = true
     audioHechizo.muted = true
     audioSnitch.muted = true
+    audioDamage.muted = true
     audioGameOver.muted = true
-    muteButton.src = './images/mute.png'
+    muteButton.src = '../images/mute.png'
   }
 
   // cambiamos el estado al clickar
