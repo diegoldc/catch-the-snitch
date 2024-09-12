@@ -29,6 +29,10 @@ const muteButton = document.querySelector("#mute-button")
 //player input
 const playerNameInputNode = document.querySelector("#player-name");
 
+const heart1Node = document.querySelector("#heart1")
+const heart2Node = document.querySelector("#heart2")
+const heart3Node = document.querySelector("#heart3")
+
 //* VARIABLES GLOBALES
 let magoObj = null
 // let snitchObj = null
@@ -121,7 +125,7 @@ function startGame() {
   scoreNode.innerText = `Score: ${score}`
 
   health = 3
-  healthNode.innerText = `Health: ${health}`
+  // healthNode.innerText = `Health: ${health}`
 
   remainingTime = 0
 
@@ -400,28 +404,36 @@ function detectarColisionMagoEnemigo() {
 
       // si choca con snape o draco restamos una vida, luego comprobamos si health = 0 -> gameOver
       health--
-      healthNode.innerText = `Health: ${health}`
+      // healthNode.innerText = `Health: ${health}`
+      if (health === 2) {
+        heart1Node.classList.replace("heart", "no-heart")
+      } else if (health === 1) {
+        heart2Node.classList.replace("heart", "no-heart")
+      } else if (health === 0) {
+        heart3Node.classList.replace("heart", "no-heart")
+      }
 
-      let alertEnemigo = document.createElement('img')
-      alertEnemigo.src = "./images/alerta-vida.png"
+
+      // let alertEnemigo = document.createElement('img')
+      // alertEnemigo.src = "./images/alerta-vida.png"
 
 
-      // posicionar la alerta
-      alertEnemigo.style.position = 'absolute';
-      alertEnemigo.style.top = `${magoObj.y + magoObj.h / 2}px`
-      alertEnemigo.style.left = `${magoObj.x + magoObj.w / 2}px`
-      alertEnemigo.style.transform = 'translate(-50%, -50%)';
-      alertEnemigo.style.zIndex = '1000';
-      alertEnemigo.style.width = '30px';
-      alertEnemigo.style.height = 'auto';
-      alertEnemigo.style.opacity = '1';
+      // // posicionar la alerta
+      // alertEnemigo.style.position = 'absolute';
+      // alertEnemigo.style.top = `${magoObj.y + magoObj.h / 2}px`
+      // alertEnemigo.style.left = `${magoObj.x + magoObj.w / 2}px`
+      // alertEnemigo.style.transform = 'translate(-50%, -50%)';
+      // alertEnemigo.style.zIndex = '1000';
+      // alertEnemigo.style.width = '30px';
+      // alertEnemigo.style.height = 'auto';
+      // alertEnemigo.style.opacity = '1';
 
-      gameBoxNode.append(alertEnemigo) // lo añadimos al nodo gamebox
+      // gameBoxNode.append(alertEnemigo) // lo añadimos al nodo gamebox
 
-      // desaparece la alerta en 1 segundo
-      setTimeout(() => {
-        alertEnemigo.remove()
-      }, 1000)
+      // // desaparece la alerta en 1 segundo
+      // setTimeout(() => {
+      //   alertEnemigo.remove()
+      // }, 1000)
 
       if (health <= 0) {
         finalTime = remainingTime
@@ -480,7 +492,14 @@ function detectarColisionMagoBludger() {
       audioDamage.play()
 
       health--
-      healthNode.innerText = `Health: ${health}`
+      // healthNode.innerText = `Health: ${health}`
+      if (health === 2) {
+        heart1Node.classList.replace("heart", "no-heart")
+      } else if (health === 1) {
+        heart2Node.classList.replace("heart", "no-heart")
+      } else if (health === 0) {
+        heart3Node.classList.replace("heart", "no-heart")
+      }
 
       if (health <= 0) {
         finalTime = remainingTime
@@ -488,26 +507,26 @@ function detectarColisionMagoBludger() {
         return
       }
 
-      let alertBludger = document.createElement('img')
-      alertBludger.src = "./images/alerta-vida.png"
+      // let alertBludger = document.createElement('img')
+      // alertBludger.src = "./images/alerta-vida.png"
 
 
-      // posicionar la alerta
-      alertBludger.style.position = 'absolute';
-      alertBludger.style.top = `${magoObj.y + magoObj.h / 2}px`
-      alertBludger.style.left = `${magoObj.x + magoObj.w / 2}px`
-      alertBludger.style.transform = 'translate(-50%, -50%)';
-      alertBludger.style.zIndex = '1000';
-      alertBludger.style.width = '30px';
-      alertBludger.style.height = 'auto';
-      alertBludger.style.opacity = '1';
+      // // posicionar la alerta
+      // alertBludger.style.position = 'absolute';
+      // alertBludger.style.top = `${magoObj.y + magoObj.h / 2}px`
+      // alertBludger.style.left = `${magoObj.x + magoObj.w / 2}px`
+      // alertBludger.style.transform = 'translate(-50%, -50%)';
+      // alertBludger.style.zIndex = '1000';
+      // alertBludger.style.width = '30px';
+      // alertBludger.style.height = 'auto';
+      // alertBludger.style.opacity = '1';
 
-      gameBoxNode.append(alertBludger) // lo añadimos al nodo gamebox
+      // gameBoxNode.append(alertBludger) // lo añadimos al nodo gamebox
 
-      // desaparece la alerta en 1 segundo
-      setTimeout(() => {
-        alertBludger.remove()
-      }, 1000)
+      // // desaparece la alerta en 1 segundo
+      // setTimeout(() => {
+      //   alertBludger.remove()
+      // }, 1000)
 
     }
 
@@ -591,7 +610,10 @@ function restartGame() {
   scoreNode.innerText = `Score: ${score}`
 
   health = 3
-  healthNode.innerText = `Health: ${health}`
+  // healthNode.innerText = `Health: ${health}`
+  heart1Node.classList.replace("no-heart", "heart")
+  heart2Node.classList.replace("no-heart", "heart")
+  heart3Node.classList.replace("no-heart", "heart")
 
   remainingTime = 0
 

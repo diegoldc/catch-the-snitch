@@ -217,9 +217,26 @@ input, select, textarea {
   width: 120px;
   text-align: center;
   height: auto;
-  align-items: center;
+  /* align-items: center; */
   color: white;
   font-size: 25px;
+}
+
+.heart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heart {
+  width: 30px;
+  margin: 0 2px;
+}
+
+.no-heart {
+  content: url('../images/border-heart.png');
+  width: 25px;
+  margin: 0 2px 1px 2px;
 }
 
 #img-vol {
