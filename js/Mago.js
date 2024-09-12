@@ -5,7 +5,7 @@ class Mago {
     this.y = 60;
     this.h = 50;
     this.w = 55;
-    this.speed = 2;
+    this.speed = 4;
 
     this.node = document.createElement("img")
     this.node.src = "./images/mago.png"

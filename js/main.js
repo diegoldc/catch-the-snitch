@@ -43,6 +43,9 @@ let enemigoSnapeIntervalId = null
 let enemigoDracoIntervalId = null
 let enemigoVoldemortIntervalId = null
 
+let bludgerObj = null
+let bludgerIntervalId = null
+
 let score = 0
 let health = 3
 let remainingTime = 0
@@ -57,6 +60,7 @@ let baseSpeed = 1 // Velocidad inicial
 let currentSpeedEnemigo = baseSpeed // Esta será la velocidad que se multiplica
 
 let keysPressed = {} // Objeto para almacenar las teclas presionadas
+
 
 const audioStart = new Audio("./audio/audio-prueba.mp3")
 audioStart.loop = true
@@ -75,8 +79,10 @@ audioGame.loop = false
 const audioHechizo = new Audio("./audio/audio-hechizo.mp3")
 audioHechizo.loop = false
 
-//const audio quitar vida
-const audioSnitch = new Audio("./audio/audio-snitch.mmp3")
+const audioDamage = new Audio("./audio/audio-damage.wav")
+audioDamage.loop = false
+
+const audioSnitch = new Audio("./audio/audio-snitch.mp3")
 audioSnitch.loop = false
 //const audio golpear boom
 
@@ -116,6 +122,9 @@ function startGame() {
   magoObj = new Mago()
   // snitchObj = new Snitch()
   // enemigoObj = new Enemigo()
+  bludgerObj = new Bludger()
+  moveBludger()
+
 
   // iniciar intervalos de juego
   gameIntervalId = setInterval(() => {
@@ -137,6 +146,7 @@ function startGame() {
   enemigoVoldemortIntervalId = setInterval(() => { // intervalo para añadir enemigo
     addVoldemort()
   }, 4500)
+
 
   timerInterval = setInterval(() => {
     // if (remainingTime === 0) {
@@ -171,7 +181,7 @@ function gameLoop() {
     eachVoldemort.automaticMove()
   })
 
-
+  moveMago()
   moveHechizos()
   moveFlame()
   detectarColisionHechizoEnemigo()
@@ -225,8 +235,8 @@ function detectarColisionMagoSnitch() {
       magoObj.y <= (eachSnitch.y + eachSnitch.h)
     ) {
 
-      // audioSnitch.volume = 1
-      // audioSnitch.play()
+      audioSnitch.volume = 0.5
+      audioSnitch.play()
 
       score++ // aumentamos score en 1
       scoreNode.innerText = `Score: ${score}`
@@ -367,6 +377,9 @@ function detectarColisionMagoEnemigo() {
     ) {
       eachEnemigo.detectado = true
 
+      audioDamage.volume = 0.3
+      audioDamage.play()
+
       // si choca con snape o draco restamos una vida, luego comprobamos si health = 0 -> gameOver
       health--
       healthNode.innerText = `Health: ${health}`
@@ -377,11 +390,11 @@ function detectarColisionMagoEnemigo() {
 
       // posicionar la alerta
       alertEnemigo.style.position = 'absolute';
-      alertEnemigo.style.top = '50%';
-      alertEnemigo.style.left = '50%';
+      alertEnemigo.style.top = `${magoObj.y + magoObj.h / 2}px`
+      alertEnemigo.style.left = `${magoObj.x + magoObj.w / 2}px`
       alertEnemigo.style.transform = 'translate(-50%, -50%)';
       alertEnemigo.style.zIndex = '1000';
-      alertEnemigo.style.width = '50px';
+      alertEnemigo.style.width = '30px';
       alertEnemigo.style.height = 'auto';
       alertEnemigo.style.opacity = '1';
 
@@ -601,14 +614,14 @@ function detectarColisionHechizoEnemigo() {
 
 
         // posicionar la alerta
-        alertHechizo.style.position = 'absolute';
-        alertHechizo.style.top = `${eachenemigo.y + eachenemigo.h / 2}px`;
-        alertHechizo.style.left = `${eachenemigo.x + eachenemigo.w / 2}px`;
-        alertHechizo.style.transform = 'translate(-50%, -50%)';
-        alertHechizo.style.zIndex = '1000';
-        alertHechizo.style.width = '100px';
-        alertHechizo.style.height = 'auto';
-        alertHechizo.style.opacity = '1';
+        alertHechizo.style.position = 'absolute'
+        alertHechizo.style.top = `${eachenemigo.y + eachenemigo.h / 2}px`
+        alertHechizo.style.left = `${eachenemigo.x + eachenemigo.w / 2}px`
+        alertHechizo.style.transform = 'translate(-50%, -50%)'
+        alertHechizo.style.zIndex = '1000'
+        alertHechizo.style.width = '100px'
+        alertHechizo.style.height = 'auto'
+        alertHechizo.style.opacity = '1'
 
         gameBoxNode.append(alertHechizo) // lo añadimos al nodo gamebox
 
@@ -692,6 +705,16 @@ function enableScroll() {
 }
 
 function moveMago() {
+  // está presionada una tecla
+  window.addEventListener("keydown", (event) => {
+    keysPressed[event.key] = true
+  });
+
+  // Detectar cuándo se suelta una tecla
+  window.addEventListener("keyup", (event) => {
+    keysPressed[event.key] = false
+  });
+
   if (keysPressed["d"]) {
     magoObj.playerMovement("right")
     magoObj.node.style.transform = "scaleX(1)" // Girar el mago hacia la derecha
@@ -711,41 +734,38 @@ function moveMago() {
     magoObj.playerMovement("down")
     magoObj.node.style.transform = "rotate(45deg)"
   }
-
-  // está presionada una tecla
-  window.addEventListener("keydown", (event) => {
-    keysPressed[event.key] = true
-  });
-
-  // Detectar cuándo se suelta una tecla
-  window.addEventListener("keyup", (event) => {
-    keysPressed[event.key] = false
-  });
-
-  requestAnimationFrame(moveMago); // Llamar a esta función de nuevo en el siguiente frame
 }
 
-moveMago()
+function moveBludger() {
+  bludgerIntervalId = setInterval(() => {
+    bludgerObj.chase(magoObj)
+  }, 50)
+  
+}
 
 //* EVENT LISTENERS
 
 muteButton.addEventListener('click', () => {
   if (isMuted) {
-    audioStart.muted = false;
-    audioGame.muted = false;
-    audioHechizo.muted = false;
+    audioStart.muted = false
+    audioGame.muted = false
+    audioHechizo.muted = false
+    audioSnitch.muted = false
+    audioGameOver.muted = false
     // audioStart.play()
-    muteButton.src = './images/unmute.png'; // Cambia la imagen a "unmuted"
+    muteButton.src = '../images/unmute.png'
   } else {
     // Si no está muteado, lo muteamos
-    audioStart.muted = true;
-    audioGame.muted = true;
-    audioHechizo.muted = true;
-    muteButton.src = './images/mute.png'; // Cambia la imagen a "muted"
+    audioStart.muted = true
+    audioGame.muted = true
+    audioHechizo.muted = true
+    audioSnitch.muted = true
+    audioGameOver.muted = true
+    muteButton.src = '../images/mute.png'
   }
 
   // cambiamos el estado al clickar
-  isMuted = !isMuted;
+  isMuted = !isMuted
 });
 
 startBtnNode.addEventListener("click", startGame)
