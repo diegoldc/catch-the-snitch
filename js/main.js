@@ -27,7 +27,7 @@ const endTimeContainer = document.querySelector("#end-time")
 const muteButton = document.querySelector("#mute-button")
 
 //player input
-const playerNameInputNode = document.querySelector("#playerNameInput");
+const playerNameInputNode = document.querySelector("#player-name");
 
 //* VARIABLES GLOBALES
 let magoObj = null

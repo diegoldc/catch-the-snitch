@@ -22,7 +22,7 @@
       <!-- <img id="mute-button" src="./images/unmute.png" alt="mute" width="50" height="50"> -->
       <div id="instructions">
         <div class="instruction-card">
-          <h2>Controls</h2>
+          <h3>Controls</h3>
           <br>
           <ul>
             <li>
@@ -41,7 +41,7 @@
           </ul>
         </div>
         <div class="instruction-card">
-          <h2>Health</h2>
+          <h3>Health</h3>
           <ul>
             <li>
               <strong>Lose Lives:</strong>
@@ -83,7 +83,7 @@
           </ul>
         </div>
         <div class="instruction-card">
-          <h2>Objectives</h2>
+          <h3>Objectives</h3>
           <ul>
             <li>
               <strong>Score Points:</strong>
@@ -96,13 +96,13 @@
           </ul>
         </div>
         <div class="instruction-card">
-          <h2>Survival</h2>
+          <h3>Survival</h3>
           <p class="survival">
             <strong>Stay alive as long as possible!</strong>
           </p>
         </div>
       </div>
-      <input type="text" id="playerNameInput" placeholder="Enter your name" />
+      <input type="text" id="player-name" placeholder="Enter your name" />
       <button class="myButton">Start Game</button>
     </div>
 
@@ -139,8 +139,11 @@
         <div id="result"></div>
         <div id="end-time"></div>
       </div>
-
-      <div id="storage"></div>
+      <div id="storage-container">
+        <h3>Highest Scores</h3>
+        <div id="storage"></div>
+      </div>
+      
 
       <button id="restartButton" class="button-restart">Restart Game</button>
     </div>
