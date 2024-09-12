@@ -406,26 +406,25 @@ function detectarColisionMagoEnemigo() {
       }
 
 
-      // let alertEnemigo = document.createElement('img')
-      // alertEnemigo.src = "./images/alerta-vida.png"
+      let alertEnemigo = document.createElement('img')
+      alertEnemigo.src = "./images/alerta-vida.png"
 
 
-      // // posicionar la alerta
-      // alertEnemigo.style.position = 'absolute';
-      // alertEnemigo.style.top = `${magoObj.y + magoObj.h / 2}px`
-      // alertEnemigo.style.left = `${magoObj.x + magoObj.w / 2}px`
-      // alertEnemigo.style.transform = 'translate(-50%, -50%)';
-      // alertEnemigo.style.zIndex = '1000';
-      // alertEnemigo.style.width = '30px';
-      // alertEnemigo.style.height = 'auto';
-      // alertEnemigo.style.opacity = '1';
+      // posicionar la alerta
+      alertEnemigo.style.position = 'absolute';
+      alertEnemigo.style.top = `${magoObj.y + magoObj.h / 2}px`
+      alertEnemigo.style.left = `${magoObj.x + magoObj.w / 2}px`
+      alertEnemigo.style.transform = 'translate(-50%, -50%)';
+      alertEnemigo.style.width = '50px';
+      alertEnemigo.style.height = 'auto';
+      alertEnemigo.style.opacity = '1';
 
-      // gameBoxNode.append(alertEnemigo) // lo añadimos al nodo gamebox
+      gameBoxNode.append(alertEnemigo) // lo añadimos al nodo gamebox
 
-      // // desaparece la alerta en 1 segundo
-      // setTimeout(() => {
-      //   alertEnemigo.remove()
-      // }, 1000)
+      // desaparece la alerta en 1 segundo
+      setTimeout(() => {
+        alertEnemigo.remove()
+      }, 1000)
 
       if (health <= 0) {
         finalTime = remainingTime
@@ -492,6 +491,26 @@ function detectarColisionMagoBludger() {
       } else if (health === 0) {
         heart3Node.classList.replace("heart", "no-heart")
       }
+
+      let alertEnemigo = document.createElement('img')
+      alertEnemigo.src = "./images/alerta-vida.png"
+
+
+      // posicionar la alerta
+      alertEnemigo.style.position = 'absolute';
+      alertEnemigo.style.top = `${magoObj.y + magoObj.h / 2}px`
+      alertEnemigo.style.left = `${magoObj.x + magoObj.w / 2}px`
+      alertEnemigo.style.transform = 'translate(-50%, -50%)';
+      alertEnemigo.style.width = '50px';
+      alertEnemigo.style.height = 'auto';
+      alertEnemigo.style.opacity = '1';
+
+      gameBoxNode.append(alertEnemigo) // lo añadimos al nodo gamebox
+
+      // desaparece la alerta en 1 segundo
+      setTimeout(() => {
+        alertEnemigo.remove()
+      }, 1000)
 
       if (health <= 0) {
         finalTime = remainingTime
