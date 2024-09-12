@@ -5,7 +5,7 @@ class Bludger {
     this.y = 30
     this.h = 25
     this.w = 25
-    this.speed = 5
+    this.speed = 4
     this.magoTopPosition = 0
     this.magoLeftPosition = 0
 

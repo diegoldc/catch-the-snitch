@@ -141,11 +141,11 @@ function startGame() {
 
   enemigoDracoIntervalId = setInterval(() => { // intervalo para añadir enemigo
     addEnemigoDraco()
-  }, 2500)
+  }, 4500)
 
   enemigoVoldemortIntervalId = setInterval(() => { // intervalo para añadir enemigo
     addVoldemort()
-  }, 4500)
+  }, 7000)
 
 
   timerInterval = setInterval(() => {
@@ -610,7 +610,7 @@ function detectarColisionHechizoEnemigo() {
         scoreNode.innerText = `Score: ${score}`
 
         let alertHechizo = document.createElement('img')
-        alertHechizo.src = "../images/boom.png"
+        alertHechizo.src = "./images/boom.png"
 
 
         // posicionar la alerta
@@ -655,7 +655,7 @@ function detectarColisionFlameVoldemort() {
         scoreNode.innerText = `Score: ${score}`
 
         let alertFlame = document.createElement('img')
-        alertFlame.src = "../images/boom.png"
+        alertFlame.src = "./images/boom.png"
 
 
         // posicionar la alerta
