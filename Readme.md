@@ -53,7 +53,7 @@ Catch the Snitch! is an exciting magic-themed game where your goal is to catch t
 [Link](https://trello.com/b/FDHKozfH/ironhack-project-1)
 
 ### Slides
-[Link](www.your-slides-url-here.com)
+[Link](https://docs.google.com/presentation/d/1i5JNrl8eiBHA3_SgE-gx-qwvj__8Jz4SbE3Ryj4LtH0/pub?start=false&loop=false&delayms=3000)
 
 ## Deploy
 [Link](https://diegoldc.github.io/catch-the-snitch/)
