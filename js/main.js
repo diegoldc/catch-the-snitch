@@ -109,7 +109,7 @@ function startGame() {
 
   audioStart.pause()
   audioGame.play()
-  audioGame.volume = 0.25
+  audioGame.volume = 0.15
 
   score = 0
   scoreNode.innerText = `Score: ${score}`
