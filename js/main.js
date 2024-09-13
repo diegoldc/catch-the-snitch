@@ -77,7 +77,7 @@ audioStart.loop = true
 
 document.addEventListener("click", () => {
   audioStart.play()
-  audioStart.volume = 0.1
+  audioStart.volume = 0.05
 }, { once: true })
 
 const audioGame = new Audio("./audio/audio-magic.mp3")
@@ -109,7 +109,7 @@ function startGame() {
 
   audioStart.pause()
   audioGame.play()
-  audioGame.volume = 0.4
+  audioGame.volume = 0.25
 
   score = 0
   scoreNode.innerText = `Score: ${score}`
