@@ -18,7 +18,7 @@ class Hechizo {
     this.node.style.height = `${this.h}px`;
 
     // Posicionamiento absoluto del hechizo
-    this.node.style.position = 'absolute';
+    this.node.style.position = "absolute";
     this.node.style.left = `${this.x}px`; // Posición en X del hechizo
     this.node.style.top = `${this.y}px`;
 
@@ -26,13 +26,13 @@ class Hechizo {
   }
 
   move() {
-    if (this.direction === 'up') {
+    if (this.direction === "up") {
       this.y -= this.speed;
-    } else if (this.direction === 'down') {
+    } else if (this.direction === "down") {
       this.y += this.speed;
-    } else if (this.direction === 'left') {
+    } else if (this.direction === "left") {
       this.x -= this.speed;
-    } else if (this.direction === 'right') {
+    } else if (this.direction === "right") {
       this.x += this.speed;
     }
 

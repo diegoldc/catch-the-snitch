@@ -273,7 +273,7 @@ function detectarColisionMagoSnitch() {
       magoObj.y <= (eachSnitch.y + eachSnitch.h)
     ) {
 
-      audioSnitch.volume = 0.3
+      audioSnitch.volume = 0.2
       audioSnitch.play()
 
       score++ // aumentamos score en 1
@@ -285,14 +285,13 @@ function detectarColisionMagoSnitch() {
 
 
       // posicionar la alerta
-      alertSnitch.style.position = 'absolute';
+      alertSnitch.style.position = "absolute";
       alertSnitch.style.top = `${eachSnitch.y + eachSnitch.h / 2}px`;
       alertSnitch.style.left = `${eachSnitch.x + eachSnitch.w / 2}px`;
-      alertSnitch.style.transform = 'translate(-50%, -50%)';
-      alertSnitch.style.zIndex = '1000'; // que esté por encima de otros elementos
-      alertSnitch.style.width = '80px';
-      alertSnitch.style.height = 'auto';
-      alertSnitch.style.opacity = '1'; // visible al inicio
+      alertSnitch.style.transform = "translate(-50%, -50%)";
+      alertSnitch.style.zIndex = "1000"; // que esté por encima de otros elementos
+      alertSnitch.style.width = "80px";
+      alertSnitch.style.height = "auto";
 
       gameBoxNode.append(alertSnitch) // lo añadimos al nodo gamebox
 
@@ -507,13 +506,12 @@ function detectarColisionMagoEnemigo() {
 
 
       // posicionar la alerta
-      alertEnemigo.style.position = 'absolute';
+      alertEnemigo.style.position = "absolute";
       alertEnemigo.style.top = `${magoObj.y + magoObj.h / 2}px`
       alertEnemigo.style.left = `${magoObj.x + magoObj.w / 2}px`
-      alertEnemigo.style.transform = 'translate(-50%, -50%)';
-      alertEnemigo.style.width = '50px';
-      alertEnemigo.style.height = 'auto';
-      alertEnemigo.style.opacity = '1';
+      alertEnemigo.style.transform = "translate(-50%, -50%)";
+      alertEnemigo.style.width = "50px";
+      alertEnemigo.style.height = "auto";
 
       gameBoxNode.append(alertEnemigo) // lo añadimos al nodo gamebox
 
@@ -591,13 +589,13 @@ function detectarColisionMagoBludger() {
       let alertEnemigo = document.createElement('img')
       alertEnemigo.src = "./images/alerta-vida.png"
 
-      alertEnemigo.style.position = 'absolute';
+      alertEnemigo.style.position = "absolute";
       alertEnemigo.style.top = `${magoObj.y + magoObj.h / 2}px`
       alertEnemigo.style.left = `${magoObj.x + magoObj.w / 2}px`
-      alertEnemigo.style.transform = 'translate(-50%, -50%)';
-      alertEnemigo.style.width = '50px';
-      alertEnemigo.style.height = 'auto';
-      alertEnemigo.style.opacity = '1';
+      alertEnemigo.style.transform = "translate(-50%, -50%)";
+      alertEnemigo.style.width = "50px";
+      alertEnemigo.style.height = "auto";
+      
 
       gameBoxNode.append(alertEnemigo) 
 
@@ -643,14 +641,13 @@ function detectarColisionHechizoEnemigo() {
 
 
         // posicionar la alerta
-        alertHechizo.style.position = 'absolute'
+        alertHechizo.style.position = "absolute"
         alertHechizo.style.top = `${eachenemigo.y + eachenemigo.h / 2}px`
         alertHechizo.style.left = `${eachenemigo.x + eachenemigo.w / 2}px`
-        alertHechizo.style.transform = 'translate(-50%, -50%)'
-        alertHechizo.style.zIndex = '1000'
-        alertHechizo.style.width = '100px'
-        alertHechizo.style.height = 'auto'
-        alertHechizo.style.opacity = '1'
+        alertHechizo.style.transform = "translate(-50%, -50%)"
+        alertHechizo.style.zIndex = "1000"
+        alertHechizo.style.width = "100px"
+        alertHechizo.style.height = "auto"
 
         gameBoxNode.append(alertHechizo) // lo añadimos al nodo gamebox
 
@@ -688,14 +685,13 @@ function detectarColisionFlameVoldemort() {
 
 
         
-        alertFlame.style.position = 'absolute';
+        alertFlame.style.position = "absolute";
         alertFlame.style.top = `${eachVoldemort.y + eachVoldemort.h / 2}px`;
         alertFlame.style.left = `${eachVoldemort.x + eachVoldemort.w / 2}px`;
-        alertFlame.style.transform = 'translate(-50%, -50%)';
-        alertFlame.style.zIndex = '1000';
-        alertFlame.style.width = '100px';
-        alertFlame.style.height = 'auto';
-        alertFlame.style.opacity = '1';
+        alertFlame.style.transform = "translate(-50%, -50%)";
+        alertFlame.style.zIndex = "1000";
+        alertFlame.style.width = "100px";
+        alertFlame.style.height = "auto";
 
         gameBoxNode.append(alertFlame)
 
