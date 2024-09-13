@@ -36,7 +36,7 @@ class Hechizo {
       this.x += this.speed;
     }
 
-    // Actualizar la posición en el DOM
+
     this.node.style.left = `${this.x}px`;
     this.node.style.top = `${this.y}px`;
   }

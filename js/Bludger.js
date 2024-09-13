@@ -25,7 +25,7 @@ class Bludger {
     this.magoTopPosition = magoObj.y
     this.magoLeftPosition = magoObj.x
 
-    // if (this.magoTopPosition != this.y || this.magoLeftPosition != this.x) {
+    
     if (this.magoTopPosition > this.y) {
       this.y += this.speed
     } else if (this.magoTopPosition < this.y) {

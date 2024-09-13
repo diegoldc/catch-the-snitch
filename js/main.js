@@ -35,13 +35,13 @@ const heart3Node = document.querySelector("#heart3")
 
 //* VARIABLES GLOBALES
 let magoObj = null
-// let snitchObj = null
+
 let snicthArray = []
 let snitchIntervalId = null
 
 let gameIntervalId = null
 
-// let enemigoObj = null
+
 let enemigoArray = []
 let voldemortArray = []
 let hechizoArray = []
@@ -56,10 +56,10 @@ let isBludgerColision = false
 
 let score = 0
 let health = 3
-let remainingTime = 0
+let currentTime = 0
 let timerInterval = null
-let minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0")
-let seconds = (remainingTime % 60).toString().padStart(2, "0")
+let minutes = Math.floor(currentTime / 60).toString().padStart(2, "0")
+let seconds = (currentTime % 60).toString().padStart(2, "0")
 let finalTime
 
 let speedIncreaseInterval = null
@@ -67,7 +67,7 @@ let speedIncreaseInterval = null
 let baseSpeed = 1 
 let currentSpeedEnemigo = baseSpeed //velocidad que se multiplica
 
-let keysPressed = {} // Objeto para almacenar las teclas presionadas
+let keysPressed = {} //almacenar las teclas presionadas
 
 let playerName = ""
 
@@ -115,12 +115,11 @@ function startGame() {
   scoreNode.innerText = `Score: ${score}`
 
   health = 3
-  // healthNode.innerText = `Health: ${health}`
 
-  remainingTime = 0
+  currentTime = 0
 
-  let minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
-  let seconds = (remainingTime % 60).toString().padStart(2, "0");
+  let minutes = Math.floor(currentTime / 60).toString().padStart(2, "0");
+  let seconds = (currentTime % 60).toString().padStart(2, "0");
 
   timerNode.innerText = `${minutes}:${seconds}`;
 
@@ -130,8 +129,7 @@ function startGame() {
 
   // añadir elementos al juego
   magoObj = new Mago()
-  // snitchObj = new Snitch()
-  // enemigoObj = new Enemigo()
+
   bludgerObj = new Bludger()
   moveBludger()
 
@@ -160,9 +158,9 @@ function startGame() {
 
 
   timerInterval = setInterval(() => {
-    remainingTime++
-    minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
-    seconds = (remainingTime % 60).toString().padStart(2, "0");
+    currentTime++
+    minutes = Math.floor(currentTime / 60).toString().padStart(2, "0");
+    seconds = (currentTime % 60).toString().padStart(2, "0");
     timerNode.innerText = `${minutes}:${seconds}`
   }, 1000)
 
@@ -211,16 +209,6 @@ function gameLoop() {
 }
 
 function moveMago() {
-  // tecla presionada
-  window.addEventListener("keydown", (event) => {
-    keysPressed[event.key] = true
-    //console.log(keysPressed)
-  });
-
-  // Se suelta la tecla
-  window.addEventListener("keyup", (event) => {
-    keysPressed[event.key] = false
-  });
 
   if (keysPressed["d"]) {
     magoObj.playerMovement("right")
@@ -462,7 +450,7 @@ function addFlame() {
 
 function moveFlame() {
   flameArray.forEach((eachFlame) => {
-    eachFlame.move(); // Mover hechizo
+    eachFlame.move(); // Mover flame
   })
 }
 
@@ -504,7 +492,7 @@ function detectarColisionMagoEnemigo() {
 
       // si choca con snape o draco restamos una vida, luego comprobamos si health = 0 -> gameOver
       health--
-      // healthNode.innerText = `Health: ${health}`
+    
       if (health === 2) {
         heart1Node.classList.replace("heart", "no-heart")
       } else if (health === 1) {
@@ -535,7 +523,7 @@ function detectarColisionMagoEnemigo() {
       }, 1000)
 
       if (health <= 0) {
-        finalTime = remainingTime
+        finalTime = currentTime
         gameOver()
         return
       }
@@ -552,12 +540,12 @@ function detectarColisionMagoVoldemort() {
 
   voldemortArray.forEach((eachVoldemort, index) => {
 
-    if (eachVoldemort.detectado) { // cuando haya un primer contacto detectado lo pasamos a true, para que no cuente de más por posibles contactos al iterar el foreach
+    if (eachVoldemort.detectado) { 
       return
     }
 
     if (
-      // medidas para indicar que esta dentro de las medidas de cada enemigo
+    
       (magoObj.y + magoObj.h) >= eachVoldemort.y &&
       (magoObj.x + magoObj.w) >= eachVoldemort.x &&
       magoObj.x <= (eachVoldemort.x + eachVoldemort.w) &&
@@ -565,12 +553,12 @@ function detectarColisionMagoVoldemort() {
     ) {
       eachVoldemort.detectado = true
 
-      finalTime = remainingTime
+      finalTime = currentTime
       gameOver()
 
       eachVoldemort.node.remove()
 
-      voldemortArray.splice(index, 1) // eliminar solo la snicth que contacte del array
+      voldemortArray.splice(index, 1) 
 
     }
   })
@@ -591,7 +579,7 @@ function detectarColisionMagoBludger() {
       audioDamage.play()
 
       health--
-      // healthNode.innerText = `Health: ${health}`
+    
       if (health === 2) {
         heart1Node.classList.replace("heart", "no-heart")
       } else if (health === 1) {
@@ -603,8 +591,6 @@ function detectarColisionMagoBludger() {
       let alertEnemigo = document.createElement('img')
       alertEnemigo.src = "./images/alerta-vida.png"
 
-
-      // posicionar la alerta
       alertEnemigo.style.position = 'absolute';
       alertEnemigo.style.top = `${magoObj.y + magoObj.h / 2}px`
       alertEnemigo.style.left = `${magoObj.x + magoObj.w / 2}px`
@@ -613,15 +599,15 @@ function detectarColisionMagoBludger() {
       alertEnemigo.style.height = 'auto';
       alertEnemigo.style.opacity = '1';
 
-      gameBoxNode.append(alertEnemigo) // lo añadimos al nodo gamebox
+      gameBoxNode.append(alertEnemigo) 
 
-      // desaparece la alerta en 1 segundo
+     
       setTimeout(() => {
         alertEnemigo.remove()
       }, 1000)
 
       if (health <= 0) {
-        finalTime = remainingTime
+        finalTime = currentTime
         gameOver()
         return
       }
@@ -687,21 +673,21 @@ function detectarColisionFlameVoldemort() {
         eachFlame.y < eachVoldemort.y + eachVoldemort.h &&
         eachFlame.y + eachFlame.h > eachVoldemort.y
       ) {
-        // Eliminar el enemigo y el hechizo si colisionan
+        // Eliminar el enemigo y flmae si colisionan
         eachFlame.node.remove()
         eachVoldemort.node.remove()
 
         flameArray.splice(flameIndex, 1)
         voldemortArray.splice(voldemortIndex, 1)
 
-        score += 5; // Aumentar el score
+        score += 5; 
         scoreNode.innerText = `Score: ${score}`
 
         let alertFlame = document.createElement('img')
         alertFlame.src = "./images/boom.png"
 
 
-        // posicionar la alerta
+        
         alertFlame.style.position = 'absolute';
         alertFlame.style.top = `${eachVoldemort.y + eachVoldemort.h / 2}px`;
         alertFlame.style.left = `${eachVoldemort.x + eachVoldemort.w / 2}px`;
@@ -711,9 +697,9 @@ function detectarColisionFlameVoldemort() {
         alertFlame.style.height = 'auto';
         alertFlame.style.opacity = '1';
 
-        gameBoxNode.append(alertFlame) // lo añadimos al nodo gamebox
+        gameBoxNode.append(alertFlame)
 
-        // desaparece la alerta en 1 segundo
+        
         setTimeout(() => {
           alertFlame.remove()
         }, 1000)
@@ -764,7 +750,7 @@ function gameOver() {
   }
 
   let currentScores = JSON.parse(localStorage.getItem("list")) /// traerlo del localStorage
-  //console.log(currentScores)
+ 
   //lo devuelve como un array de objetos, cambio la variable newScor para que sea un objeto
 
   if (!currentScores) {
@@ -773,7 +759,7 @@ function gameOver() {
   } else {
     currentScores.push(newScore)
   }
-  //console.log(currentScores)
+  
 
   //sort para ordenar de mayor a menor score
   currentScores.sort((score1, score2) => {
@@ -807,15 +793,15 @@ function restartGame() {
   scoreNode.innerText = `Score: ${score}`
 
   health = 3
-  // healthNode.innerText = `Health: ${health}`
+  
   heart1Node.classList.replace("no-heart", "heart")
   heart2Node.classList.replace("no-heart", "heart")
   heart3Node.classList.replace("no-heart", "heart")
 
-  remainingTime = 0
+  currentTime = 0
 
-  let minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0")
-  let seconds = (remainingTime % 60).toString().padStart(2, "0")
+  let minutes = Math.floor(currentTime / 60).toString().padStart(2, "0")
+  let seconds = (currentTime % 60).toString().padStart(2, "0")
 
   timerNode.innerText = `${minutes}:${seconds}`
 
@@ -875,7 +861,7 @@ muteButton.addEventListener('click', () => {
     audioSnitch.muted = false
     audioDamage.muted = false
     audioGameOver.muted = false
-    // audioStart.play()
+    
     muteButton.src = './images/unmute.png'
   } else {
     
@@ -904,13 +890,20 @@ startBtnNode.addEventListener("click", () => {
 })
 
 window.addEventListener("keydown", (event) => {
+  keysPressed[event.key] = true // aqui pasamos a valor tu la key que haya sido pulsada
+
+
   if (gameScreenNode.style.display === "flex") {
-    if (event.key === "u") {
-      addHechizo();
+    if (event.key === "i") {
+      addHechizo()
     } else if (event.key === "p") {
-      addFlame();
+      addFlame()
     }
   }
-});
+})
+
+window.addEventListener("keyup", (event) => {
+  keysPressed[event.key] = false
+})
 
 botonRestartNode.addEventListener("click", restartGame) 

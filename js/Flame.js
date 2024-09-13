@@ -15,9 +15,9 @@ class Flame {
     this.node.style.width = `${this.w}px`;
     this.node.style.height = `${this.h}px`;
 
-    // Posicionamiento absoluto del hechizo
+   
     this.node.style.position = 'absolute';
-    this.node.style.left = `${this.x}px`; // Posición en X del hechizo
+    this.node.style.left = `${this.x}px`; 
     this.node.style.top = `${this.y}px`;
 
     gameBoxNode.append(this.node)
@@ -34,7 +34,7 @@ class Flame {
       this.x += this.speed;
     }
 
-    // Actualizar la posición en el DOM
+    
     this.node.style.left = `${this.x}px`;
     this.node.style.top = `${this.y}px`;
   }
