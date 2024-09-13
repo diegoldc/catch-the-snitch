@@ -150,7 +150,7 @@ function startGame() {
 
   enemigoDracoIntervalId = setInterval(() => { // intervalo para añadir enemigo
     addEnemigoDraco()
-  }, 5500)
+  }, 4500)
 
   enemigoVoldemortIntervalId = setInterval(() => { // intervalo para añadir enemigo
     addVoldemort()
@@ -170,7 +170,7 @@ function startGame() {
   }
   speedIncreaseInterval = setInterval(() => {
     increaseSpeedOfEnemies(1.5); //vel x1.5
-  }, 15000); 
+  }, 20000); 
 
   disableScroll()
 }
